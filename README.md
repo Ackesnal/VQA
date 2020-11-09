@@ -36,9 +36,7 @@ For image i and image j, assume their bounding boxes are denoted as {x<sub>i</su
 
 Then the relationships between them are denoted as
 
-```math
-R_{i,j} = {|x<sub>i</sub> - x<sub>i</sub>|/w<sub>i</sub>, |y<sub>i</sub> - y<sub>j</sub>|/h<sub>i</sub>, w<sub>j</sub>/w<sub>i</sub>, h<sub>j</sub>/h<sub>i</sub>}
-```
+R<sub>i,j</sub> = {|x<sub>i</sub> - x<sub>i</sub>|/w<sub>i</sub>, |y<sub>i</sub> - y<sub>j</sub>|/h<sub>i</sub>, w<sub>j</sub>/w<sub>i</sub>, h<sub>j</sub>/h<sub>i</sub>}
 
 R<sub>j,i</sub> = {|x<sub>i</sub> - x<sub>j</sub>|/w<sub>j</sub>, |y<sub>i</sub> - y<sub>j</sub>|/h<sub>j</sub>, w<sub>i</sub>/w<sub>j</sub>, h<sub>i</sub>/h<sub>j</sub>}
 
