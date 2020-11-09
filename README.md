@@ -1,4 +1,4 @@
-# VQA
+# VQA - CSIRO Data61 - Xuwei Xu
 
 This repo is used to record the research process of Visual Question and Answering (VQA). It is built upon the [OpenVQA](https://github.com/MILVLG/openvqa) framework.
 
