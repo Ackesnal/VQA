@@ -42,8 +42,8 @@ R<sub>j,i</sub> = {|x<sub>i</sub> - x<sub>j</sub>|/w<sub>j</sub>,&nbsp;&nbsp;  |
 
 And the similarity for images in the self-attention process is computed as:
 
-Sim(x<sub>i</sub>, x<sub>j</sub>) = softmax(Q<sub>j</sub>K<sub>i</sub><sup>T</sup> / <sqrt>d</sqrt> + R<sub>i,j</sub>)
+Sim(x<sub>i</sub>, x<sub>j</sub>) = softmax(Q<sub>j</sub>K<sub>i</sub><sup>T</sup> / <span>&#8730;</span>d + R<sub>i,j</sub>)
 
-Sim(x<sub>j</sub>, x<sub>i</sub>) = softmax(Q<sub>i</sub>K<sub>j</sub><sup>T</sup> / <sqrt>d</sqrt> + R<sub>j,i</sub>)
+Sim(x<sub>j</sub>, x<sub>i</sub>) = softmax(Q<sub>i</sub>K<sub>j</sub><sup>T</sup> / <span>&#8730;</span>d + R<sub>j,i</sub>)
 
 **In this case, is it still novel to use the spatial relation information?**
