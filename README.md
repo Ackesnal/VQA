@@ -1,8 +1,17 @@
 # VQA
 
-This repo is used to record the research process of Visual Question and Answering (VQA). I have tried Answer-based methods on the [Bootstrap](https://github.com/Cadene/bootstrap.pytorch) framework. The highest accurary is approx. 68%.
+This repo is used to record the research process of Visual Question and Answering (VQA). 
+
+I have tried Answer-based methods on the [Bootstrap](https://github.com/Cadene/bootstrap.pytorch) framework. The highest accurary is approx. 68%.
+
+For the following research, I will convert to [OpenVQA](https://github.com/MILVLG/openvqa) framework.
 
 ---
+
+## Ideation
+
+1. Use transformer as a basic method. 
+  Image --> V_i, Q_i, K_i, Question --> V_q, Q_q, K_q. Similarity 
 
 ## Current Issue
 
