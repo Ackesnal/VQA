@@ -32,14 +32,17 @@ Can be added to the image processes part? Or during the multi head? Or used to r
 
 Just found that [MMNAS net](https://arxiv.org/pdf/2004.12070.pdf) has used the relation info in the multimodal transformer.
     
-For image i and image j, assume their bounding boxes are denoted as {x<sub>i</sub>, y<sub>i</sub>, w<sub>i</sub>, h<sub>i</sub>} and {x<sub>j</sub>, y<sub>j</sub>, w<sub>j</sub>, h<sub>j</sub>}.
+For image i and image j, assume their bounding boxes are denoted as {x<sub>i</sub>,&nbsp; y<sub>i</sub>,&nbsp; w<sub>i</sub>,&nbsp; h<sub>i</sub>} and {x<sub>j</sub>,&nbsp; y<sub>j</sub>,&nbsp; w<sub>j</sub>,&nbsp; h<sub>j</sub>}.
 
 Then the relationships between them are denoted as
 
-R<sub>i,j</sub> = {|x<sub>i</sub> - x<sub>i</sub>|/w<sub>i</sub>,&nbsp;  |y<sub>i</sub> - y<sub>j</sub>|/h<sub>i</sub>,&nbsp;  w<sub>j</sub>/w<sub>i</sub>,  h<sub>j</sub>/h<sub>i</sub>}
+R<sub>i,j</sub> = {|x<sub>i</sub> - x<sub>i</sub>|/w<sub>i</sub>,&nbsp;&nbsp;  |y<sub>i</sub> - y<sub>j</sub>|/h<sub>i</sub>,&nbsp;&nbsp;  w<sub>j</sub>/w<sub>i</sub>,&nbsp;&nbsp; h<sub>j</sub>/h<sub>i</sub>}
 
-R<sub>j,i</sub> = {|x<sub>i</sub> - x<sub>j</sub>|/w<sub>j</sub>,&nbsp;  |y<sub>i</sub> - y<sub>j</sub>|/h<sub>j</sub>,&nbsp;  w<sub>i</sub>/w<sub>j</sub>,  h<sub>i</sub>/h<sub>j</sub>}
+R<sub>j,i</sub> = {|x<sub>i</sub> - x<sub>j</sub>|/w<sub>j</sub>,&nbsp;&nbsp;  |y<sub>i</sub> - y<sub>j</sub>|/h<sub>j</sub>,&nbsp;&nbsp;  w<sub>i</sub>/w<sub>j</sub>,&nbsp;&nbsp; h<sub>i</sub>/h<sub>j</sub>}
 
-And the similarity for images in the self-attention process is computed
+And the similarity for images in the self-attention process is computed as:
 
-Sim(x<sub>i</sub>, x<sub>j</sub>) = softmax(Q<sub>j</sub>K<sub>i</sub><sup>T</sup> / <sqrt>d</sqrt> + R<sub>i,j</sub>) """V<sub>i</sub>
+Sim(x<sub>i</sub>, x<sub>j</sub>) = softmax(Q<sub>j</sub>K<sub>i</sub><sup>T</sup> / <sqrt>d</sqrt> + R<sub>i,j</sub>)
+
+
+Sim(x<sub>j</sub>, x<sub>i</sub>) = softmax(Q<sub>i</sub>K<sub>j</sub><sup>T</sup> / <sqrt>d</sqrt> + R<sub>j,i</sub>)
