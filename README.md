@@ -11,7 +11,9 @@ For the following research, I will convert to [OpenVQA](https://github.com/MILVL
 ## Ideation
 
 1. Use transformer as a basic method. 
-  Image --> V_i, Q_i, K_i, Question --> V_q, Q_q, K_q. Similarity 
+  
+  Image --> V_i, Q_i, K_i, Question --> V_q, Q_q, K_q. 
+  Similarity: Sim(I) = softmax(V_i$\cdot$K_q)
 
 ## Current Issue
 
