@@ -65,5 +65,11 @@ Value **V** is calculated from image input, and **V** has dimension **n * d**
 Relation **R** is calculated from bounding box, and **R** has dimension **n * n**
 
 Similarity **S** is calculated from **Q**, **K** and **R** via **S<sub>GA</sub>** = softmax(**QK**<sup>K</sup>), **S<sub>RSA</sub>** = softmax(**QK**<sup>K</sup> + **R**)
+
+For **S<sub>GA</sub>**, it has dimension **m * n**
+
+Attended value **V'** is calculated via **V'** = **S<sub>GA</sub>V**, and it has dimension **m * d**
  
-**In this case, is it still novel to use the spatial relation information?**
+However, the initial dimension of **V** is **n * d**. Thus, the dimension is consistent through the process.
+ 
+**Why? and how?**
