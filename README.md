@@ -56,20 +56,12 @@ Sim(x<sub>j</sub>, x<sub>i</sub>) = softmax(Q<sub>i</sub>K<sub>j</sub><sup>T</su
 
 In [MMNAS net](https://arxiv.org/pdf/2004.12070.pdf), it introduced guided attention (GA)
 
-Query **Q** is calculated from question, and **Q** has dimension **m**
+Query **Q** is calculated from question input, and **Q** has dimension **m * d**
 
+Key **K** is calculated from image input, and **K** has dimension **n * d**
 
+Value **V** is calculated from image input, and **V** has dimension **n * d**
 
-Then the relationships between them are denoted as
-
-R<sub>i,j</sub> = {|x<sub>i</sub> - x<sub>i</sub>|/w<sub>i</sub>,&nbsp;&nbsp;  |y<sub>i</sub> - y<sub>j</sub>|/h<sub>i</sub>,&nbsp;&nbsp;  w<sub>j</sub>/w<sub>i</sub>,&nbsp;&nbsp; h<sub>j</sub>/h<sub>i</sub>}
-
-R<sub>j,i</sub> = {|x<sub>i</sub> - x<sub>j</sub>|/w<sub>j</sub>,&nbsp;&nbsp;  |y<sub>i</sub> - y<sub>j</sub>|/h<sub>j</sub>,&nbsp;&nbsp;  w<sub>i</sub>/w<sub>j</sub>,&nbsp;&nbsp; h<sub>i</sub>/h<sub>j</sub>}
-
-And the similarity for images in the self-attention process is computed as:
-
-Sim(x<sub>i</sub>, x<sub>j</sub>) = softmax(Q<sub>j</sub>K<sub>i</sub><sup>T</sup> / <span>&#8730;</span>d + R<sub>i,j</sub>)
-
-Sim(x<sub>j</sub>, x<sub>i</sub>) = softmax(Q<sub>i</sub>K<sub>j</sub><sup>T</sup> / \sqrt{d} + R<sub>j,i</sub>)
+Relation **R** is calculated from bounding box, and **R** has dimension **n * n**
 
 **In this case, is it still novel to use the spatial relation information?**
