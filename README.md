@@ -64,4 +64,6 @@ Value **V** is calculated from image input, and **V** has dimension **n * d**
 
 Relation **R** is calculated from bounding box, and **R** has dimension **n * n**
 
+Similarity **S** is calculated from **Q**, **K** and **R** via **S<sub>GA</sub>** = softmax(**QK**<sup>K</sup>), **S<sub>RSA</sub>** = softmax(**QK**<sup>K</sup> + **R**)
+ 
 **In this case, is it still novel to use the spatial relation information?**
