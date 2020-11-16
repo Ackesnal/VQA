@@ -6,3 +6,5 @@ The "train path" of vqa is changed to "val path". This step is for checking the 
 3. Email CECS HDR office to seek for advice on applying MPhil.
 
 4. Sort documents on the GPU cluster. Delete redundant datasets and useless files.
+
+5. Write some paragraphs in thesis.
