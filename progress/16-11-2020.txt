@@ -10,3 +10,5 @@ The "train path" of vqa is changed to "val path". This step is for checking the 
 5. Write some paragraphs in thesis.
 
 6. Convert the model back. Convert the file path in "openvqa/core/path_cfgs.py" back. The training dataset has been downloaded successfully. Run the model with correct dataset.
+
+7. Start running MMNASNET
