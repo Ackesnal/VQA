@@ -24,6 +24,15 @@ The coordinates might work
 
 Can be added to the image processes part? Or during the multi head? Or used to refine the similarity part?
 
+
+#### 3. Use POS tags
+
+To identify the part of speech (POS) of each word. 
+
+3.1 Attempt to give part of image (POI) maybe? That is, assign different labels to different objects of an image.
+
+3.2 Using POS and Bounding Boxes to extract vision attention
+
 ---
 
 ## Current Issue
