@@ -18,12 +18,15 @@ Question --> V<sub>q</sub>, Q<sub>q</sub>, K<sub>q</sub>.
     
 Similarity: Sim(I) = softmax(Q<sub>i</sub> K<sub>q</sub><sup>T</sup>), Sim(Q) = softmax(Q<sub>i</sub>V<sub>q</sub><sup>T</sup>)
 
+<br>
+
 #### 2. Add relational info
 
 The coordinates might work
 
 Can be added to the image processes part? Or during the multi head? Or used to refine the similarity part?
 
+<br>
 
 #### 3. Use POS tags
 
