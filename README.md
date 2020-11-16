@@ -64,7 +64,7 @@ Sim(x<sub>j</sub>, x<sub>i</sub>) = softmax(Q<sub>i</sub>K<sub>j</sub><sup>T</su
 <br>
 
 
-#### 2. Dimension does not match
+#### 2. Dimension does not match (Solved)
 
 In [MMNAS net](https://arxiv.org/pdf/2004.12070.pdf), it introduced guided attention (GA)
 
@@ -85,3 +85,8 @@ Attended value **V'** is calculated via **V'** = **S<sub>GA</sub>V**, and it has
 However, the initial dimension of **V** is **n * d**. Thus, the dimension is consistent through the process.
  
 **Why? and how?**
+
+```html
+   <p style="color:red">This is a paragraph.</p>
+```
+Reason
