@@ -86,7 +86,19 @@ However, the initial dimension of **V** is **n * d**. Thus, the dimension is con
  
 **Why? and how?**
 
-```html
-   <p style="color:red">This is a paragraph.</p>
 ```
-Reason
+Reason:
+
+The output has the same size as Query.
+
+It uses the image input as Query, and question input as Key and Value. Then the output has the same dimension as the image.
+```
+
+<br>
+<br>
+
+#### 3. Why is it available to use image input as Query only?
+
+softmax(**QK**<sup>K</sup> + **R**) only returns the similarity figures.
+
+The original image information will be lost by computing softmax(**QK**<sup>K</sup> + **R**)**V** because the **V** value matrix is computed from the question input.
