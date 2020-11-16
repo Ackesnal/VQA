@@ -40,7 +40,7 @@ To identify the part of speech (POS) of each word.
 
 ## Current Issue
 
-#### 1. To what extend the novelty should be?
+#### 1. To what extend the novelty should be? (Solved)
 
 Just found that [MMNAS net](https://arxiv.org/pdf/2004.12070.pdf) has used the relation info in the multimodal transformer.
     
@@ -59,6 +59,12 @@ Sim(x<sub>i</sub>, x<sub>j</sub>) = softmax(Q<sub>j</sub>K<sub>i</sub><sup>T</su
 Sim(x<sub>j</sub>, x<sub>i</sub>) = softmax(Q<sub>i</sub>K<sub>j</sub><sup>T</sup> / <span>&#8730;</span>d + R<sub>j,i</sub>)
 
 **In this case, is it still novel to use the spatial relation information?**
+
+```
+Answer:
+
+As long as in different aspect. 
+```
 
 <br>
 <br>
