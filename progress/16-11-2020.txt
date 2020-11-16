@@ -1,0 +1,8 @@
+1. Test the dimensionality of Guided Attention (GA). Since the training dataset is currently not available, I have modified the file "openvqa/core/path_cfgs.py". 
+The "train path" of vqa is changed to "val path". This step is for checking the implementation of GA and seeing whether the model can smoothly run on the GPU cluster.
+
+2. Upload train2014.tar.gz (13.8G) from my own laptop. I have tried a lot of times but an error always occur when downloading the training dataset on the GPU cluster.
+
+3. Email CECS HDR office to seek for advice on applying MPhil.
+
+4. Sort documents on the GPU cluster. Delete redundant datasets and useless files.
