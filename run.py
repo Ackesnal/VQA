@@ -29,7 +29,10 @@ def parse_args():
                            'mfh',
                            'mem',
                            'butd',
-                           'mmnasnet'
+                           'mmnasnet',
+                           'mmnasnet_small',
+                           'mmnasnet_large',
+                           'mcan'
                            ]
                         ,
                       help='{'

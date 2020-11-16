@@ -189,6 +189,7 @@ class GA(nn.Module):
         self.norm = LayerNorm(__C.HIDDEN_SIZE)
 
     def forward(self, x, y, x_mask, y_mask, rela):
+        # print(x.shape, y.shape)
         x = self.norm(x + self.dropout(
             self.mhatt(v=y, k=y, q=x, mask=y_mask)
         ))
