@@ -94,7 +94,7 @@ Value **V** is calculated from image input, and **V** has dimension **n * d**
 
 Relation **R** is calculated from bounding box, and **R** has dimension **n * n**
 
-Similarity **S** is calculated from **Q**, **K** and **R** via **S<sub>GA</sub>** = softmax(**QK**<sup>K</sup>), **S<sub>RSA</sub>** = softmax(**QK**<sup>K</sup> + **R**)
+Similarity **S** is calculated from **Q**, **K** and **R** via **S<sub>GA</sub>** = softmax(**QK**<sup>T</sup>), **S<sub>RSA</sub>** = softmax(**QK**<sup>T</sup> + **R**)
 
 For **S<sub>GA</sub>**, it has dimension **m * n**
 
@@ -110,6 +110,8 @@ Reason:
 The output has the same size as Query.
 
 It uses the image input as Query, and question input as Key and Value. Then the output has the same dimension as the image.
+
+Q is derived from image features and has dimension **1**
 ```
 
 <br>
@@ -117,6 +119,6 @@ It uses the image input as Query, and question input as Key and Value. Then the 
 
 #### 3. Why is it available to use image input as Query only?
 
-softmax(**QK**<sup>K</sup> + **R**) only returns the similarity figures.
+softmax(**QK**<sup>T</sup> + **R**) only returns the similarity figures.
 
-The original image information will be lost by computing softmax(**QK**<sup>K</sup> + **R**)**V** because the **V** value matrix is computed from the question input.
+The original image information will be lost by computing softmax(**QK**<sup>T</sup> + **R**)**V** because the **V** value matrix is computed from the question input.
