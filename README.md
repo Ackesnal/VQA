@@ -111,7 +111,11 @@ The output has the same size as Query.
 
 It uses the image input as Query, and question input as Key and Value. Then the output has the same dimension as the image.
 
-Q is derived from image features and has dimension **1**
+Q(uery) is derived from image features and has dimension n*d
+
+K(ey) is derived from question attentions and has dimension m*d
+
+V(alue) is derived from question attentions and has dimension m*d
 ```
 
 <br>
