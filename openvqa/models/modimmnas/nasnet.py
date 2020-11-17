@@ -194,7 +194,7 @@ class GA(nn.Module):
 
     def forward(self, x, y, x_mask, y_mask, rela):
         # print(x.shape, y.shape)
-        attended = self.dropout(self.mhatt(v=x, k=x, q=y, mask=y_mask)).view(x.shape[0], x.shape[2], y.shape[1])
+        attended = self.dropout(self.mhatt(v=x, k=x, q=y, mask=x_mask)).view(x.shape[0], x.shape[2], y.shape[1])
         attended = self.fc(attended).view(x.shape[0], x.shape[1], x.shape[2])
         x = self.norm(x + attended)
         
