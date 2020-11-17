@@ -36,6 +36,18 @@ To identify the part of speech (POS) of each word.
 
 3.2 Using POS and Bounding Boxes to extract vision attention
 
+<br>
+
+#### 4. VQA-version YOLO?
+
+Say, a one-step only end-to-end model for VQA?
+
+<br>
+
+#### 5. Derive relationship via b-box
+
+Calculate the type of relationship between two objects by their bounding boxes and feature maps.
+
 ---
 
 ## Current Issue
