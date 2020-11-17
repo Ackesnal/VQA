@@ -179,7 +179,7 @@ class RSA(nn.Module):
         return x
 
 
-class GA(nn.Module):
+class GA(nn.Module):    
     def __init__(self, __C):
         super(GA, self).__init__()
 
@@ -187,20 +187,15 @@ class GA(nn.Module):
 
         self.dropout = nn.Dropout(__C.DROPOUT_R)
         self.norm = LayerNorm(__C.HIDDEN_SIZE)
-        self.fc = nn.Sequential(
-                    torch.nn.Linear(14, 100),
-                    torch.nn.ReLU()
-                  )
 
     def forward(self, x, y, x_mask, y_mask, rela):
         # print(x.shape, y.shape)
-        attended = torch.transpose(
-                    self.dropout(self.mhatt(v=x, k=x, q=y, mask=y_mask))
-                    0, 1)
-        attended = torch.transpose(self.fc(attended), 0, 1)
-        x = self.norm(x + attended)
+        x = self.norm(x + self.dropout(
+            self.mhatt(v=y, k=y, q=x, mask=y_mask)
+        ))
 
         return x
+    
 
 
 # ------------------------------------------------
