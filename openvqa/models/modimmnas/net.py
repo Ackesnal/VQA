@@ -103,6 +103,7 @@ class Net(nn.Module):
         # Pre-process Language Feature
         lang_feat_mask = make_mask(ques_ix.unsqueeze(2))
         lang_feat = self.embedding(ques_ix)
+        self.lstm.flatten_parameters()
         lang_feat, _ = self.lstm(lang_feat)
 
         img_feat, rel_embed, img_feat_mask = self.adapter(frcn_feat, grid_feat, bbox_feat)
