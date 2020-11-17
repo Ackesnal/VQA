@@ -6,8 +6,8 @@
 from openvqa.utils.make_mask import make_mask
 from openvqa.ops.fc import FC, MLP
 from openvqa.ops.layer_norm import LayerNorm
-from openvqa.models.mmnasnet.nasnet import NAS_ED
-from openvqa.models.mmnasnet.adapter import Adapter
+from openvqa.models.modimmnas.nasnet import NAS_ED
+from openvqa.models.modimmnas.adapter import Adapter
 
 import torch.nn as nn
 import torch.nn.functional as F
