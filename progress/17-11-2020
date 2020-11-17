@@ -10,4 +10,11 @@
 
 5. Add self.lstm.flatten_parameters() to the net.py to avoid constant warning.
 
+6. The modified network is using the same structure of SA, FFN and RSA unit. GA unit is changed.
+   GA(x,y,x_mask)
+   The key and value is computed by x (image)
+   The query is computed by y (question)
+   The mask is derived from x (image)
+   After a single transformer layer, the output will be connected via a fully connected layer and an activate layer to maintain the dimension.
+
 
