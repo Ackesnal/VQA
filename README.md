@@ -19,6 +19,7 @@ Question --> V<sub>q</sub>, Q<sub>q</sub>, K<sub>q</sub>.
 Similarity: Sim(I) = softmax(Q<sub>i</sub> K<sub>q</sub><sup>T</sup>), Sim(Q) = softmax(Q<sub>i</sub>V<sub>q</sub><sup>T</sup>)
 
 <br>
+<br>
 
 #### 2. Add relational info
 
@@ -26,6 +27,7 @@ The coordinates might work
 
 Can be added to the image processes part? Or during the multi head? Or used to refine the similarity part?
 
+<br>
 <br>
 
 #### 3. Use POS tags
@@ -37,16 +39,21 @@ To identify the part of speech (POS) of each word.
 3.2 Using POS and Bounding Boxes to extract vision attention
 
 <br>
+<br>
 
 #### 4. VQA-version YOLO?
 
 Say, a one-step only end-to-end model for VQA?
 
 <br>
+<br>
 
 #### 5. Derive relationship via b-box
 
 Calculate the type of relationship between two objects by their bounding boxes and feature maps.
+
+<br>
+<br>
 
 ---
 
@@ -126,3 +133,12 @@ V(alue) is derived from question attentions and has dimension m*d
 softmax(**QK**<sup>T</sup> + **R**) only returns the similarity figures.
 
 The original image information will be lost by computing softmax(**QK**<sup>T</sup> + **R**)**V** because the **V** value matrix is computed from the question input.
+
+<br>
+<br>
+
+---
+
+## Findings
+
+#### 1. Transformer-based model is faster than bilinear-fusion-based model.
