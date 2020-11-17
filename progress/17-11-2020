@@ -1,0 +1,8 @@
+1. Finish training MMNASNET.
+
+2. Test the MMNASNET on VQAv2 validation set and get overall accuracy 67.65%
+
+3. Test the MMNASNET on VQAv2 test set
+
+4. Modified the Guided Attention (GA) Unit. Compute the key and value from image and query from question. Since the dimension does not match, add a fully connection layer after it.
+   Modified files are named after "ModiMMNAS".
