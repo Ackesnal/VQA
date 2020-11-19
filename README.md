@@ -59,7 +59,7 @@ Calculate the type of relationship between two objects by their bounding boxes a
 
 ## Current Issue
 
-#### 1. To what extend the novelty should be? (Solved)
+#### 1. To what extend the novelty should be? (SOLVED)
 
 Just found that [MMNAS net](https://arxiv.org/pdf/2004.12070.pdf) has used the relation info in the multimodal transformer.
     
@@ -89,7 +89,7 @@ As long as in different aspect.
 <br>
 
 
-#### 2. Dimension does not match (Solved)
+#### 2. Dimension does not match (SOLVED)
 
 In [MMNAS net](https://arxiv.org/pdf/2004.12070.pdf), it introduced guided attention (GA)
 
@@ -128,12 +128,36 @@ V(alue) is derived from question attentions and has dimension m*d
 <br>
 <br>
 
-#### 3. Why is it available to use image input as Query only?
+#### 3. Why is it available to use image input as Query only? (SOLVED)
 
 softmax(**QK**<sup>T</sup> + **R**) only returns the similarity figures.
 
 The original image information will be lost by computing softmax(**QK**<sup>T</sup> + **R**)**V** because the **V** value matrix is computed from the question input.
 
+```
+Reason:
+
+This step is to reconstruct the image feature by the question attention.
+
+For each feature vector (i.e. an object), this unit will generate a query vector Q.
+
+For each question attention, this unit will generate a key vector K and a value vector V.
+
+Then it compares the Q and K to obtain similarities between the current object and every question vector.
+
+The similarity result will be used to aggregate the question vector.
+
+The aggregation result will be the reconstructed object feature vector.
+
+For example, if the question feature has 3 vectors, each vector has 512 elements, corresponding to (cat, dog, bird)
+
+If the object is dog.
+
+Then the similarity might be (0.1, 0.85, 0.05).
+
+In this case, the image feature vector is aggregated / reconstructured from the question vector.
+
+```
 <br>
 <br>
 
