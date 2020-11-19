@@ -48,14 +48,10 @@ class Adapter(BaseAdapter):
         img_feat_mask = make_mask(frcn_feat)
 
         if self.__C.USE_BBOX_FEAT:
-            print(bbox_feat.shape, "0")
             bbox_feat = self.bbox_proc(bbox_feat)
-            print(bbox_feat.shape, "1")
             bbox_feat = self.bbox_linear(bbox_feat)
-            print(bbox_feat.shape, "2")
-            print(frcn_feat.shape, "3")
-            frcn_feat = torch.cat((frcn_feat, bbox_feat), dim=-1)
-            print(frcn_feat.shape, "4")
+            frcn_feat = frcn_feat + bbox_feat
+            #frcn_feat = torch.cat((frcn_feat, bbox_feat), dim=-1)
         img_feat = self.frcn_linear(frcn_feat)
 
         return img_feat, img_feat_mask
@@ -72,7 +68,7 @@ class Adapter(BaseAdapter):
             bbox_feat = self.bbox_proc(bbox_feat)
             bbox_feat = self.bbox_linear(bbox_feat)
             frcn_feat = torch.cat((frcn_feat, bbox_feat), dim=-1)
-        img_feat = self.frcn_linear(frcn_feat)
+        img_feat = frcn_feat #self.frcn_linear(frcn_feat)
 
         if self.__C.USE_AUX_FEAT:
             grid_feat_mask = make_mask(grid_feat)
