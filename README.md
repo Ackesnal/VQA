@@ -38,6 +38,10 @@ To identify the part of speech (POS) of each word.
 
 3.2 Using POS and Bounding Boxes to extract vision attention
 
+#### 5. Derive relationship via b-box
+
+Calculate the type of relationship between two objects by their bounding boxes and feature maps.
+
 <br>
 <br>
 
@@ -45,12 +49,16 @@ To identify the part of speech (POS) of each word.
 
 Say, a one-step only end-to-end model for VQA?
 
+Initial idea: 
+  
+    1. Question attention vector will be used to compute the kernel for each layer in CNN.
+    2. Question attention vector will be attended by transformer (self-attention).
+    3. For each layer, the original image is convoluted by the kernel generated from question, the question attention is attended by self-attention layer.
+    
 <br>
 <br>
 
-#### 5. Derive relationship via b-box
-
-Calculate the type of relationship between two objects by their bounding boxes and feature maps.
+#### 6. 
 
 <br>
 <br>
