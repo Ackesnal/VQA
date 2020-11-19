@@ -149,7 +149,7 @@ class SGA(nn.Module):
         self.dropout3 = nn.Dropout(__C.DROPOUT_R)
         self.norm3 = LayerNorm(__C.HIDDEN_SIZE)
         
-        self.norm4 = LayerNorm(__C.HIDDEN_SIZE)
+        self.relu = nn.ReLU()
         self.linear = nn.Linear(14, 100)
         
     def forward(self, x, y, x_mask, y_mask):
@@ -171,7 +171,7 @@ class SGA(nn.Module):
         ))
         
         t = self.dropout2(self.mhatt2(v=x, k=x, q=y, mask=x_mask))
-        t = nn.ReLU(self.linear(t.view(t.shape[0], t.shape[2], t.shape[1])))
+        t = self.relu(self.linear(t.view(t.shape[0], t.shape[2], t.shape[1])))
         x = self.norm2(x + t.view(t.shape[0], t.shape[2], t.shape[1]))
         
         x = self.norm3(x + self.dropout3(
