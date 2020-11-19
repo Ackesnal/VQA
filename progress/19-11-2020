@@ -8,3 +8,5 @@
    I think it is hard to see whether the modified GA works better than the original one on MMNASNET.
    Therefore, I turn back to the MCAN, and change the SGA unit in MCAN.
    I plan to see whether the modified GA works better than original GA under the same configuration.
+
+5. Ask Lars about the next steps
