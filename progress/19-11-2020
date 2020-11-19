@@ -11,3 +11,5 @@
    I plan to see whether the modified GA works better than original GA under the same configuration.
 
 5. Ask Lars about the next steps
+
+6. Set several tests to see how MCAN treats the bounding boxes.
