@@ -169,6 +169,14 @@ In this case, the image feature vector is aggregated / reconstructured from the 
 <br>
 <br>
 
+#### 4. About applying for MPhil
+
+Whether Lars would like to be my supervisor? So that I can submit the application.
+
+If Lars would like to, can we settle a time for discussion (about ideas and plans)?
+
+What should I write in the proposal and where should I start?
+
 ---
 
 ## Findings
