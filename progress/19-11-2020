@@ -3,6 +3,7 @@
 2. Since the training seemed not to converge, I turned down the lr to 1e-7 and set the training epochs to 20.
 
 3. Based on 2, the validation accuracy increases slowly. A much lower lr may not be a good idea.
+   It stuck at 49% accuracy.
 
 4. The experiments made before are based on MMNASNET, which contains the combination of SA, GA, FFN, RSA. 
    I think it is hard to see whether the modified GA works better than the original one on MMNASNET.
