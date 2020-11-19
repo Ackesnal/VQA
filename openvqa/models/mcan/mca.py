@@ -171,7 +171,7 @@ class SGA(nn.Module):
         ))
         
         t = self.dropout2(self.mhatt2(v=x, k=x, q=y, mask=x_mask))
-        t = nn.ReLu(self.linear(t.view(t.shape[0], t.shape[2], t.shape[1])))
+        t = nn.ReLU(self.linear(t.view(t.shape[0], t.shape[2], t.shape[1])))
         x = self.norm2(x + t.view(t.shape[0], t.shape[2], t.shape[1]))
         
         x = self.norm3(x + self.dropout3(
