@@ -1,0 +1,4 @@
+1. The modified Guided Attention (GA) does not result in better performance. Accuracy on VQAv2 validation set is 61.98%
+
+2. Since the training seemed not to converge, I turned down the lr to 1e-7 and set the training epochs to 20.
+
