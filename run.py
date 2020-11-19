@@ -33,6 +33,7 @@ def parse_args():
                            'mmnasnet_small',
                            'mmnasnet_large',
                            'modimmnas_large',
+                           'modimmnas_large_smalllr',
                            'mcan'
                            ]
                         ,
