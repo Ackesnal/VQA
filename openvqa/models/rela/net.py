@@ -6,7 +6,7 @@
 from openvqa.utils.make_mask import make_mask
 from openvqa.ops.fc import FC, MLP
 from openvqa.ops.layer_norm import LayerNorm
-from openvqa.models.rela.mca import MCA_ED
+from openvqa.models.rela.rela import MCA_ED
 from openvqa.models.rela.adapter import Adapter
 
 import torch.nn as nn
