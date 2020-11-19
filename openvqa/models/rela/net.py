@@ -78,7 +78,8 @@ class Net(nn.Module):
             input_size=__C.WORD_EMBED_SIZE,
             hidden_size=__C.HIDDEN_SIZE,
             num_layers=1,
-            batch_first=True
+            batch_first=True,
+            bidirectional=True
         )
 
         self.adapter = Adapter(__C)
