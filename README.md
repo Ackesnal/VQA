@@ -10,7 +10,7 @@ For the following research, I will convert to [OpenVQA](https://github.com/MILVL
 
 ## Ideation
 
-#### 1. Use transformer as a basic method
+#### 1. Use transformer as a basic method (HAS BEEN WIDELY USED)
   
 Image --> V<sub>i</sub>, Q<sub>i</sub>, K<sub>i</sub>
 
@@ -21,7 +21,7 @@ Similarity: Sim(I) = softmax(Q<sub>i</sub> K<sub>q</sub><sup>T</sup>), Sim(Q) = 
 <br>
 <br>
 
-#### 2. Add relational info
+#### 2. Add relational info (HAS BEEN USED, BUT CAN BE APPROVED)
 
 The coordinates might work
 
