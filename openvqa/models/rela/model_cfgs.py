@@ -20,5 +20,5 @@ class Cfgs(BaseCfgs):
         self.FLAT_GLIMPSES = 1
         self.FLAT_OUT_SIZE = 1024
         self.USE_AUX_FEAT = False
-        self.USE_BBOX_FEAT = False
+        self.USE_BBOX_FEAT = True
         self.BBOX_NORMALIZE = True
