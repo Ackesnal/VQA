@@ -103,6 +103,7 @@ class Net(nn.Module):
         lang_feat_mask = make_mask(ques_ix.unsqueeze(2))
         lang_feat = self.embedding(ques_ix)
         lang_feat, _ = self.lstm(lang_feat)
+        print(lang_feat.shape, ques_ix.shape)
         pos_embed = self.pos_embedding(torch.arange(ques_ix.shape[0], device='cuda'))
         lang_feat = lang_feat + pos_embed
         img_feat, img_feat_mask, bbox_feat = self.adapter(frcn_feat, grid_feat, bbox_feat)
