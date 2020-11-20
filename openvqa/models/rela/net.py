@@ -69,6 +69,10 @@ class Net(nn.Module):
             num_embeddings=token_size,
             embedding_dim=__C.WORD_EMBED_SIZE
         )
+        self.pos_embedding = nn.Embedding(
+            num_embeddings=token_size,
+            embedding_dim=__C.WORD_EMBED_SIZE
+        )
 
         # Loading the GloVe embedding weights
         if __C.USE_GLOVE:
@@ -93,15 +97,15 @@ class Net(nn.Module):
         # Classification layers
         self.proj_norm = LayerNorm(__C.FLAT_OUT_SIZE)
         self.proj = nn.Linear(__C.FLAT_OUT_SIZE, answer_size)
-
-
+        
     def forward(self, frcn_feat, grid_feat, bbox_feat, ques_ix):
 
         # Pre-process Language Feature
         lang_feat_mask = make_mask(ques_ix.unsqueeze(2))
         lang_feat = self.embedding(ques_ix)
+        pos_embed = self.pos_embedding(torch.arange(ques_ix.shape[0]))
+        print(ques_id.shape[0], pos_embed)
         lang_feat, _ = self.lstm(lang_feat)
-        print(lang_feat.shape)
         img_feat, img_feat_mask = self.adapter(frcn_feat, grid_feat, bbox_feat)
 
         # Backbone Framework
