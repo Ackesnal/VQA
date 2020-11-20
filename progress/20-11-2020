@@ -10,3 +10,14 @@
     The performance decreases. Accuracy on Val set is 62.07%, on Test-dev set is 63.34%.
     One thing to note is: The accuracy decreases on the val set after 10 epochs. 
     It seems that overfitting occurs.
+
+
+2. Set next goal as:
+
+2.1 Extract question position embeddings.
+
+2.2 Think of a way to use both embeddings.
+
+3. Write new COGA unit, introducing position embedding into the transformer.
+
+
