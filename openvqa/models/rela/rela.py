@@ -82,7 +82,7 @@ class MHAtt(nn.Module):
     
 class MHAttRela(nn.Module):
     def __init__(self, __C):
-        super(MHAtt, self).__init__()
+        super(MHAttRela, self).__init__()
         self.__C = __C
 
         self.linear_v = nn.Linear(__C.HIDDEN_SIZE, __C.HIDDEN_SIZE)
