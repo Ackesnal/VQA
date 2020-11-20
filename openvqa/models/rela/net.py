@@ -71,7 +71,7 @@ class Net(nn.Module):
         )
         self.pos_embedding = nn.Embedding(
             num_embeddings=token_size,
-            embedding_dim=__C.WORD_EMBED_SIZE
+            embedding_dim=__C.HIDDEN_SIZE
         )
 
         # Loading the GloVe embedding weights
@@ -82,8 +82,7 @@ class Net(nn.Module):
             input_size=__C.WORD_EMBED_SIZE,
             hidden_size=__C.HIDDEN_SIZE,
             num_layers=1,
-            batch_first=True,
-            bidirectional=True
+            batch_first=True
         )
 
         self.adapter = Adapter(__C)
@@ -103,17 +102,19 @@ class Net(nn.Module):
         # Pre-process Language Feature
         lang_feat_mask = make_mask(ques_ix.unsqueeze(2))
         lang_feat = self.embedding(ques_ix)
-        pos_embed = self.pos_embedding(torch.arange(ques_ix.shape[0], device='cuda'))
-        print(ques_ix.shape[0], pos_embed)
         lang_feat, _ = self.lstm(lang_feat)
-        img_feat, img_feat_mask = self.adapter(frcn_feat, grid_feat, bbox_feat)
+        pos_embed = self.pos_embedding(torch.arange(ques_ix.shape[0], device='cuda'))
+        lang_feat = lang_feat + pos_embed
+        img_feat, img_feat_mask, bbox_feat = self.adapter(frcn_feat, grid_feat, bbox_feat)
 
         # Backbone Framework
         lang_feat, img_feat = self.backbone(
             lang_feat,
             img_feat,
             lang_feat_mask,
-            img_feat_mask
+            img_feat_mask,
+            pos_embed,
+            bbox_feat
         )
 
         # Flatten to vector
