@@ -79,7 +79,7 @@ class MHAtt(nn.Module):
         return torch.matmul(att_map, value)
 
 
-    
+ a= 1   
     
  class MHAttRela(nn.Module):
     def __init__(self, __C):
@@ -91,7 +91,6 @@ class MHAtt(nn.Module):
         self.linear_q = nn.Linear(__C.HIDDEN_SIZE, __C.HIDDEN_SIZE)
         self.linear_r = nn.Linear(__C.HIDDEN_SIZE, __C.HIDDEN_SIZE)
         self.linear_merge = nn.Linear(__C.HIDDEN_SIZE, __C.HIDDEN_SIZE)
-
         self.dropout = nn.Dropout(__C.DROPOUT_R)
 
     def forward(self, v, k, q, r, mask):
