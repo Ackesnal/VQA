@@ -101,7 +101,7 @@ class Net(nn.Module):
         lang_feat_mask = make_mask(ques_ix.unsqueeze(2))
         lang_feat = self.embedding(ques_ix)
         lang_feat, _ = self.lstm(lang_feat)
-
+        print(lang_feat.shape)
         img_feat, img_feat_mask = self.adapter(frcn_feat, grid_feat, bbox_feat)
 
         # Backbone Framework
