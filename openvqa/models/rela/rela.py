@@ -78,10 +78,9 @@ class MHAtt(nn.Module):
 
         return torch.matmul(att_map, value)
 
-
- a= 1   
     
- class MHAttRela(nn.Module):
+    
+class MHAttRela(nn.Module):
     def __init__(self, __C):
         super(MHAtt, self).__init__()
         self.__C = __C
