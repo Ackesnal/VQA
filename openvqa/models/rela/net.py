@@ -103,7 +103,7 @@ class Net(nn.Module):
         # Pre-process Language Feature
         lang_feat_mask = make_mask(ques_ix.unsqueeze(2))
         lang_feat = self.embedding(ques_ix)
-        pos_embed = self.pos_embedding(torch.arange(ques_ix.shape[0]))
+        pos_embed = self.pos_embedding(torch.arange(ques_ix.shape[0], device='cuda'))
         print(ques_id.shape[0], pos_embed)
         lang_feat, _ = self.lstm(lang_feat)
         img_feat, img_feat_mask = self.adapter(frcn_feat, grid_feat, bbox_feat)
