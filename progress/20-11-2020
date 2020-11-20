@@ -1,0 +1,12 @@
+1. Test two experiment results.
+
+1.1 MCAN with modified GA. Modified GA Unit exchanges the K,V and Q so that K and V are derived from image and Q are derived from question. 
+    Meanwhile, a linear mapping layer (Linear + ReLU) is added to the end of it in order to maintain the dimension the same as image.
+    What's more, the input image features are added by the bounding box embeddings, instead of concatenating them.
+    
+    The performance decreases. Accuracy on Val set is 63.32%, on Test-dev set is 64.89%.
+
+1.2 Modified MMNASNET. Perform the same as 1.1.
+    The performance decreases. Accuracy on Val set is 62.07%, on Test-dev set is 63.34%.
+    One thing to note is: The accuracy decreases on the val set after 10 epochs. 
+    It seems that overfitting occurs.
