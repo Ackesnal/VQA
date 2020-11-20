@@ -10,7 +10,7 @@ class Cfgs(BaseCfgs):
     def __init__(self):
         super(Cfgs, self).__init__()
 
-        self.LAYER = 6
+        self.LAYER = 4
         self.HIDDEN_SIZE = 1024
         self.BBOXFEAT_EMB_SIZE = 2048
         self.FF_SIZE = 2048
