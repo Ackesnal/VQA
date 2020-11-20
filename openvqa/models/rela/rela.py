@@ -239,7 +239,7 @@ class SGA(nn.Module):
 
     
     
- class COGA(nn.Module):
+class COGA(nn.Module):
     def __init__(self, __C):
         super(COGA, self).__init__()
 
