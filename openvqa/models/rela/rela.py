@@ -274,8 +274,8 @@ class COGA(nn.Module):
         new_y = self.norm2(y + self.dropout2(self.mhatty2x(v=x, k=x, q=y, r=y_pos, mask=y_mask)))
         new_x = self.norm3(new_x + self.dropout3(self.mhattxself(v=new_x, k=new_x, q=new_x, r=x_pos, mask=x_mask)))
         new_y = self.norm4(new_y + self.dropout4(self.mhattxself(v=new_y, k=new_y, q=new_y, r=y_pos, mask=y_mask)))
-        new_x = self.norm5(new_x + self.dropout5(self.ffnx(new_x))
-        new_y = self.norm6(new_y + self.dropout6(self.ffny(new_y))
+        new_x = self.norm5(new_x + self.dropout5(self.ffnx(new_x)))
+        new_y = self.norm6(new_y + self.dropout6(self.ffny(new_y)))
         
         return new_x, new_y
     
