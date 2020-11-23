@@ -263,7 +263,6 @@ class DataSet(BaseDataSet):
         pos_tags = nltk.pos_tag(words)
 
         for ix, (word, tag) in enumerate(pos_tags):
-            print(word, tag)
             if word in token_to_ix:
                 ques_ix[ix] = token_to_ix[word]
             else:
