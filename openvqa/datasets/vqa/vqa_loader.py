@@ -183,20 +183,20 @@ class DataSet(BaseDataSet):
             iid = str(ans['image_id'])
 
             # Process question
-            ques_ix_iter = self.proc_ques(ques, self.token_to_ix, self.postag_to_ix, max_token=14)
+            ques_ix_iter, ques_pos_iter = self.proc_ques(ques, self.token_to_ix, self.postag_to_ix, max_token=14)
 
             # Process answer
             ans_iter = self.proc_ans(ans, self.ans_to_ix)
 
-            return ques_ix_iter, ans_iter, iid
+            return ques_ix_iter, ques_pos_iter, ans_iter, iid
 
         else:
             ques = self.ques_list[idx]
             iid = str(ques['image_id'])
 
-            ques_ix_iter = self.proc_ques(ques, self.token_to_ix, max_token=14)
+            ques_ix_iter, ques_pos_iter = self.proc_ques(ques, self.token_to_ix, self.postag_to_ix, max_token=14)
 
-            return ques_ix_iter, np.zeros(1), iid
+            return ques_ix_iter, ques_pos_iter, np.zeros(1), iid
 
 
     def load_img_feats(self, idx, iid):
