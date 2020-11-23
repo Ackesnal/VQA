@@ -116,6 +116,7 @@ class DataSet(BaseDataSet):
             pretrained_emb.append(spacy_tool('CLS').vector)
 
         for ques in stat_ques_list:
+            print(ques)
             words = re.sub(
                 r"([.,'!?\"()*#:;])",
                 '',
