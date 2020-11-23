@@ -19,12 +19,14 @@ def train_engine(__C, dataset, dataset_eval=None):
     token_size = dataset.token_size
     ans_size = dataset.ans_size
     pretrained_emb = dataset.pretrained_emb
+    postag_size = dataset.postag_size
 
     net = ModelLoader(__C).Net(
         __C,
         pretrained_emb,
         token_size,
-        ans_size
+        ans_size,
+        postag_size
     )
     net.cuda()
     net.train()
