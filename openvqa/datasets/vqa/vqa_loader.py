@@ -121,7 +121,7 @@ class DataSet(BaseDataSet):
                 '',
                 ques['question'].lower()
             ).replace('-', ' ').replace('/', ' ')
-            print(spacy_tool(words))
+            print(spacy_tool(words)[1], pacy_tool(words).tag[1])
             for word in words.split():
                 if word not in token_to_ix:
                     token_to_ix[word] = len(token_to_ix)
