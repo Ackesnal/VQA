@@ -287,13 +287,18 @@ class MCA_ED(nn.Module):
     def __init__(self, __C):
         super(MCA_ED, self).__init__()
 
-        #self.enc_list = nn.ModuleList([SA(__C) for _ in range(__C.LAYER)])
-        #self.dec_list = nn.ModuleList([SGA(__C) for _ in range(__C.LAYER)])
-        self.enc_list = nn.ModuleList([COGA(__C) for _ in range(__C.LAYER)])
+        self.enc_list = nn.ModuleList([SA(__C) for _ in range(__C.LAYER)])
+        self.dec_list = nn.ModuleList([SGA(__C) for _ in range(__C.LAYER)])
+        #self.enc_list = nn.ModuleList([COGA(__C) for _ in range(__C.LAYER)])
         
     def forward(self, y, x, y_mask, x_mask, y_pos, x_pos):
         # Get encoder last hidden vector
         for enc in self.enc_list:
-            x, y = enc(x, y, x_mask, y_mask, x_pos, y_pos)
+            y = enc(y, y_mask)
+        for dec in self.dec_list:
+            x = enc(x, y, x_mask, y_mask)
+            
+        #for enc in self.enc_list:
+        #    x, y = enc(x, y, x_mask, y_mask, x_pos, y_pos)
 
         return y, x
