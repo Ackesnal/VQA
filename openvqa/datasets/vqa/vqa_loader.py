@@ -67,7 +67,7 @@ class DataSet(BaseDataSet):
         self.qid_to_ques = self.ques_load(self.ques_list)
 
         # Tokenize
-        self.token_to_ix, self.pretrained_emb = self.tokenize(stat_ques_list, __C.USE_GLOVE)
+        self.token_to_ix, self.pretrained_emb, self.postag_to_ix = self.tokenize(stat_ques_list, __C.USE_GLOVE)
         self.token_size = self.token_to_ix.__len__()
         print(' ========== Question token vocab size:', self.token_size)
 
@@ -108,6 +108,7 @@ class DataSet(BaseDataSet):
             'UNK': 1,
             'CLS': 2,
         }
+        postag_to_ix = {'PAD' : 0, 'UNK' : 1}
 
         spacy_tool = None
         pretrained_emb = []
@@ -123,25 +124,22 @@ class DataSet(BaseDataSet):
                 '',
                 ques['question'].lower()
             ).replace('-', ' ').replace('/', ' ')
-            token = word_tokenize(words)
-            nltk.download('averaged_perceptron_tagger')
-            print(nltk.pos_tag(token))
             
-            words = re.sub(
-                r"([.,'!?\"()*#:;])",
-                '',
-                ques['question'].lower()
-            ).replace('-', ' ').replace('/', ' ').split()
+            words = nltk.word_tokenize(words)
+            pos_tags = nltk.pos_tag(words)
             
-            for word in words:
+            for word, tag in pos_tags:
                 if word not in token_to_ix:
                     token_to_ix[word] = len(token_to_ix)
                     if use_glove:
                         pretrained_emb.append(spacy_tool(word).vector)
+                if tag not in postag_to_ix:
+                    postag_to_ix[tag] = len(postag_to_ix)
+            
 
         pretrained_emb = np.array(pretrained_emb)
 
-        return token_to_ix, pretrained_emb
+        return token_to_ix, pretrained_emb, postag_to_ix
 
 
     # def ans_stat(self, stat_ans_list, ans_freq):
@@ -185,7 +183,7 @@ class DataSet(BaseDataSet):
             iid = str(ans['image_id'])
 
             # Process question
-            ques_ix_iter = self.proc_ques(ques, self.token_to_ix, max_token=14)
+            ques_ix_iter = self.proc_ques(ques, self.token_to_ix, self.postag_to_ix, max_token=14)
 
             # Process answer
             ans_iter = self.proc_ans(ans, self.ans_to_ix)
@@ -251,25 +249,30 @@ class DataSet(BaseDataSet):
         return bbox
 
 
-    def proc_ques(self, ques, token_to_ix, max_token):
+    def proc_ques(self, ques, token_to_ix, postag_to_ix, max_token):
         ques_ix = np.zeros(max_token, np.int64)
+        ques_pos = np.zeros(max_token, np.int64)
 
         words = re.sub(
             r"([.,'!?\"()*#:;])",
             '',
             ques['question'].lower()
-        ).replace('-', ' ').replace('/', ' ').split()
+        ).replace('-', ' ').replace('/', ' ')
+        words = nltk.word_tokenize(words)
+        pos_tags = nltk.pos_tag(words)
 
-        for ix, word in enumerate(words):
+        for ix, (word, tag) in enumerate(pos_tags):
             if word in token_to_ix:
                 ques_ix[ix] = token_to_ix[word]
+                ques_pos[ix] = postag_to_ix[tag]
             else:
                 ques_ix[ix] = token_to_ix['UNK']
+                ques_pos[ix] = postag_to_ix['UNK']
 
             if ix + 1 == max_token:
                 break
 
-        return ques_ix
+        return ques_ix, ques_pos
 
 
     def get_score(self, occur):
