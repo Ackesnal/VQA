@@ -97,7 +97,7 @@ class Net(nn.Module):
         self.proj_norm = LayerNorm(__C.FLAT_OUT_SIZE)
         self.proj = nn.Linear(__C.FLAT_OUT_SIZE, answer_size)
         
-    def forward(self, frcn_feat, grid_feat, bbox_feat, ques_ix):
+    def forward(self, frcn_feat, grid_feat, bbox_feat, ques_ix, ques_pos):
 
         # Pre-process Language Feature
         lang_feat_mask = make_mask(ques_ix.unsqueeze(2))
