@@ -272,7 +272,7 @@ class DataSet(BaseDataSet):
             if ix + 1 == max_token:
                 break
 
-        return ques_ix, ques_pos
+        return ques_ix, ques_pos 
 
 
     def get_score(self, occur):
