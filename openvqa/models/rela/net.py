@@ -110,7 +110,6 @@ class Net(nn.Module):
         lang_feat = self.embedding(ques_ix)
         #self.lstm.flatten_parameters()
         #lang_feat, _ = self.lstm(lang_feat)
-        print(torch.arange(ques_ix.shape[1], device='cuda').repeat(ques_ix.shape[0], 1))
         position_embed = self.pos_embedding(torch.arange(ques_ix.shape[1], device='cuda').repeat(ques_ix.shape[0], 1))
         postag_embed = self.tag_embedding(ques_postag)
         lang_feat = lang_feat + position_embed + postag_embed
