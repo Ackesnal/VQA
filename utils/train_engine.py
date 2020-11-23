@@ -139,7 +139,8 @@ def train_engine(__C, dataset, dataset_eval=None):
                 grid_feat_iter,
                 bbox_feat_iter,
                 ques_ix_iter,
-                ans_iter
+                ans_iter,
+                ques_pos_iter
         ) in enumerate(dataloader):
 
             optim.zero_grad()
@@ -148,6 +149,7 @@ def train_engine(__C, dataset, dataset_eval=None):
             grid_feat_iter = grid_feat_iter.cuda()
             bbox_feat_iter = bbox_feat_iter.cuda()
             ques_ix_iter = ques_ix_iter.cuda()
+            ques_pos_iter = ques_pos_iter.cuda()
             ans_iter = ans_iter.cuda()
 
             loss_tmp = 0
@@ -166,6 +168,9 @@ def train_engine(__C, dataset, dataset_eval=None):
                 sub_ques_ix_iter = \
                     ques_ix_iter[accu_step * __C.SUB_BATCH_SIZE:
                                  (accu_step + 1) * __C.SUB_BATCH_SIZE]
+                sub_ques_pos_iter = \
+                    ques_pos_iter[accu_step * __C.SUB_BATCH_SIZE:
+                                 (accu_step + 1) * __C.SUB_BATCH_SIZE]
                 sub_ans_iter = \
                     ans_iter[accu_step * __C.SUB_BATCH_SIZE:
                              (accu_step + 1) * __C.SUB_BATCH_SIZE]
@@ -174,7 +179,8 @@ def train_engine(__C, dataset, dataset_eval=None):
                     sub_frcn_feat_iter,
                     sub_grid_feat_iter,
                     sub_bbox_feat_iter,
-                    sub_ques_ix_iter
+                    sub_ques_ix_iter,
+                    sub_ques_pos_iter
                 )
 
                 loss_item = [pred, sub_ans_iter]
