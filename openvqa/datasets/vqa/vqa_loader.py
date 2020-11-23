@@ -69,6 +69,7 @@ class DataSet(BaseDataSet):
         # Tokenize
         self.token_to_ix, self.pretrained_emb, self.postag_to_ix = self.tokenize(stat_ques_list, __C.USE_GLOVE)
         self.token_size = self.token_to_ix.__len__()
+        self.postag_size = self.postag_to_ix.__len__()
         print(' ========== Question token vocab size:', self.token_size)
 
         # Answers statistic
@@ -265,11 +266,12 @@ class DataSet(BaseDataSet):
             print(word, tag)
             if word in token_to_ix:
                 ques_ix[ix] = token_to_ix[word]
-                ques_pos[ix] = postag_to_ix[tag]
             else:
                 ques_ix[ix] = token_to_ix['UNK']
+            if tag in postag_to_ix:
+                ques_pos[ix] = postag_to_ix[tag]
+            else:
                 ques_pos[ix] = postag_to_ix['UNK']
-
             if ix + 1 == max_token:
                 break
 
