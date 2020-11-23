@@ -5,6 +5,8 @@
 
 import numpy as np
 import glob, json, re, en_vectors_web_lg
+from nltk import word_tokenize
+import nltk
 from openvqa.core.base_dataset import BaseDataSet
 from openvqa.utils.ans_punct import prep_ans
 
@@ -121,8 +123,17 @@ class DataSet(BaseDataSet):
                 '',
                 ques['question'].lower()
             ).replace('-', ' ').replace('/', ' ')
-            print(spacy_tool(words)[1], spacy_tool(words).tag[1])
-            for word in words.split():
+            token = word_tokenize(words)
+            
+            print(nltk.pos_tag(token))
+            
+            words = re.sub(
+                r"([.,'!?\"()*#:;])",
+                '',
+                ques['question'].lower()
+            ).replace('-', ' ').replace('/', ' ').split()
+            
+            for word in words:
                 if word not in token_to_ix:
                     token_to_ix[word] = len(token_to_ix)
                     if use_glove:
