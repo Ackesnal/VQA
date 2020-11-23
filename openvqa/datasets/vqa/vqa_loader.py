@@ -124,7 +124,7 @@ class DataSet(BaseDataSet):
                 ques['question'].lower()
             ).replace('-', ' ').replace('/', ' ')
             token = word_tokenize(words)
-            
+            nltk.download('averaged_perceptron_tagger')
             print(nltk.pos_tag(token))
             
             words = re.sub(
