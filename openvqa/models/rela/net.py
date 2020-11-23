@@ -101,6 +101,7 @@ class Net(nn.Module):
         # Classification layers
         self.proj_norm = LayerNorm(__C.FLAT_OUT_SIZE)
         self.proj = nn.Linear(__C.FLAT_OUT_SIZE, answer_size)
+        self.fusion = nn.Bilinear(FLAT_OUT_SIZE, FLAT_OUT_SIZE, FLAT_OUT_SIZE)
         
     def forward(self, frcn_feat, grid_feat, bbox_feat, ques_ix, ques_postag):
 
@@ -137,7 +138,7 @@ class Net(nn.Module):
         )
 
         # Classification layers
-        proj_feat = lang_feat + img_feat
+        proj_feat = self.fusion(lang_feat, img_feat)
         proj_feat = self.proj_norm(proj_feat)
         proj_feat = self.proj(proj_feat)
 
