@@ -81,14 +81,14 @@ class Net(nn.Module):
         # Loading the GloVe embedding weights
         #if __C.USE_GLOVE:
         #    self.embedding.weight.data.copy_(torch.from_numpy(pretrained_emb))
-        '''
-        self.lstm = nn.LSTM(
-            input_size=__C.WORD_EMBED_SIZE,
-            hidden_size=__C.HIDDEN_SIZE,
-            num_layers=1,
-            batch_first=True
-        )
-        '''
+        
+        #self.lstm = nn.LSTM(
+        #    input_size=__C.WORD_EMBED_SIZE,
+        #    hidden_size=__C.HIDDEN_SIZE,
+        #    num_layers=1,
+        #    batch_first=True
+        #)
+        
 
         self.adapter = Adapter(__C)
 
