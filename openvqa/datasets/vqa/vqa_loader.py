@@ -127,15 +127,15 @@ class DataSet(BaseDataSet):
             ).replace('-', ' ').replace('/', ' ')
             
             words = nltk.word_tokenize(words)
-            #pos_tags = nltk.pos_tag(words)
+            pos_tags = nltk.pos_tag(words)
             
-            for word in words:#, tag in pos_tags:
+            for word, tag in pos_tags:
                 if word not in token_to_ix:
                     token_to_ix[word] = len(token_to_ix)
                     if use_glove:
                         pretrained_emb.append(spacy_tool(word).vector)
-                #if tag not in postag_to_ix:
-                #    postag_to_ix[tag] = len(postag_to_ix)
+                if tag not in postag_to_ix:
+                    postag_to_ix[tag] = len(postag_to_ix)
             
 
         pretrained_emb = np.array(pretrained_emb)
@@ -260,16 +260,8 @@ class DataSet(BaseDataSet):
             ques['question'].lower()
         ).replace('-', ' ').replace('/', ' ')
         words = nltk.word_tokenize(words)
-        #pos_tags = nltk.pos_tag(words)
+        pos_tags = nltk.pos_tag(words)
         
-        for ix, word in enumerate(words):
-            if word in token_to_ix:
-                ques_ix[ix] = token_to_ix[word]
-            else:
-                ques_ix[ix] = token_to_ix['UNK']
-            if ix + 1 == max_token:
-                break
-        '''      
         for ix, (word, tag) in enumerate(pos_tags):
             if word in token_to_ix:
                 ques_ix[ix] = token_to_ix[word]
@@ -281,7 +273,6 @@ class DataSet(BaseDataSet):
                 ques_pos[ix] = postag_to_ix['UNK']
             if ix + 1 == max_token:
                 break
-        '''
         
         return ques_ix, ques_pos 
 
