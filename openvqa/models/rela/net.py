@@ -61,29 +61,34 @@ class AttFlat(nn.Module):
 # -------------------------
 
 class Net(nn.Module):
-    def __init__(self, __C, pretrained_emb, token_size, answer_size):
+    def __init__(self, __C, pretrained_emb, token_size, answer_size, postag_size):
         super(Net, self).__init__()
         self.__C = __C
 
         self.embedding = nn.Embedding(
             num_embeddings=token_size,
-            embedding_dim=__C.WORD_EMBED_SIZE
+            embedding_dim=__C.HIDDEN_SIZE
         )
-        self.pos_embedding = nn.Embedding(
-            num_embeddings=token_size,
+        self.position_embedding = nn.Embedding(
+            num_embeddings=15,
+            embedding_dim=__C.HIDDEN_SIZE
+        )
+        self.postag_embedding = nn.Embedding(
+            num_embeddings=postag_size,
             embedding_dim=__C.HIDDEN_SIZE
         )
 
         # Loading the GloVe embedding weights
-        if __C.USE_GLOVE:
-            self.embedding.weight.data.copy_(torch.from_numpy(pretrained_emb))
-
+        #if __C.USE_GLOVE:
+        #    self.embedding.weight.data.copy_(torch.from_numpy(pretrained_emb))
+        '''
         self.lstm = nn.LSTM(
             input_size=__C.WORD_EMBED_SIZE,
             hidden_size=__C.HIDDEN_SIZE,
             num_layers=1,
             batch_first=True
         )
+        '''
 
         self.adapter = Adapter(__C)
 
@@ -97,15 +102,17 @@ class Net(nn.Module):
         self.proj_norm = LayerNorm(__C.FLAT_OUT_SIZE)
         self.proj = nn.Linear(__C.FLAT_OUT_SIZE, answer_size)
         
-    def forward(self, frcn_feat, grid_feat, bbox_feat, ques_ix, ques_pos):
+    def forward(self, frcn_feat, grid_feat, bbox_feat, ques_ix, ques_postag):
 
         # Pre-process Language Feature
         lang_feat_mask = make_mask(ques_ix.unsqueeze(2))
         lang_feat = self.embedding(ques_ix)
-        self.lstm.flatten_parameters()
-        lang_feat, _ = self.lstm(lang_feat)
-        pos_embed = self.pos_embedding(torch.arange(ques_ix.shape[1], device='cuda').repeat(ques_ix.shape[0], 1))
-        lang_feat = lang_feat + pos_embed
+        #self.lstm.flatten_parameters()
+        #lang_feat, _ = self.lstm(lang_feat)
+        print(torch.arange(ques_ix.shape[1], device='cuda').repeat(ques_ix.shape[0], 1))
+        position_embed = self.pos_embedding(torch.arange(ques_ix.shape[1], device='cuda').repeat(ques_ix.shape[0], 1))
+        postag_embed = self.tag_embedding(ques_postag)
+        lang_feat = lang_feat + position_embed + postag_embed
         img_feat, img_feat_mask, bbox_feat = self.adapter(frcn_feat, grid_feat, bbox_feat)
 
         # Backbone Framework
@@ -114,7 +121,7 @@ class Net(nn.Module):
             img_feat,
             lang_feat_mask,
             img_feat_mask,
-            pos_embed,
+            position_embed,
             bbox_feat
         )
 
