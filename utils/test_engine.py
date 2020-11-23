@@ -45,12 +45,14 @@ def test_engine(__C, dataset, state_dict=None, validation=False):
     token_size = dataset.token_size
     ans_size = dataset.ans_size
     pretrained_emb = dataset.pretrained_emb
+    postag_size = dataset.postag_size
 
     net = ModelLoader(__C).Net(
         __C,
         pretrained_emb,
         token_size,
-        ans_size
+        ans_size,
+        postag_size
     )
     net.cuda()
     net.eval()
@@ -73,7 +75,8 @@ def test_engine(__C, dataset, state_dict=None, validation=False):
             grid_feat_iter,
             bbox_feat_iter,
             ques_ix_iter,
-            ans_iter
+            ans_iter,
+            ques_pos_iter
     ) in enumerate(dataloader):
 
         print("\rEvaluation: [step %4d/%4d]" % (
@@ -85,12 +88,14 @@ def test_engine(__C, dataset, state_dict=None, validation=False):
         grid_feat_iter = grid_feat_iter.cuda()
         bbox_feat_iter = bbox_feat_iter.cuda()
         ques_ix_iter = ques_ix_iter.cuda()
+        ques_pos_iter = ques_pos_iter.cuda()
 
         pred = net(
             frcn_feat_iter,
             grid_feat_iter,
             bbox_feat_iter,
-            ques_ix_iter
+            ques_ix_iter,
+            ques_pos_iter
         )
         pred_np = pred.cpu().data.numpy()
         pred_argmax = np.argmax(pred_np, axis=1)
