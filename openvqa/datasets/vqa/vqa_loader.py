@@ -66,7 +66,6 @@ class DataSet(BaseDataSet):
 
         # Tokenize
         self.token_to_ix, self.pretrained_emb = self.tokenize(stat_ques_list, __C.USE_GLOVE)
-        print(self.token_to_ix)
         self.token_size = self.token_to_ix.__len__()
         print(' ========== Question token vocab size:', self.token_size)
 
@@ -121,9 +120,9 @@ class DataSet(BaseDataSet):
                 r"([.,'!?\"()*#:;])",
                 '',
                 ques['question'].lower()
-            ).replace('-', ' ').replace('/', ' ').split()
-
-            for word in words:
+            ).replace('-', ' ').replace('/', ' ')
+            print(spacy_tool(words))
+            for word in words.split():
                 if word not in token_to_ix:
                     token_to_ix[word] = len(token_to_ix)
                     if use_glove:
