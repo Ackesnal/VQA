@@ -66,6 +66,7 @@ class DataSet(BaseDataSet):
 
         # Tokenize
         self.token_to_ix, self.pretrained_emb = self.tokenize(stat_ques_list, __C.USE_GLOVE)
+        print(self.token_to_ix)
         self.token_size = self.token_to_ix.__len__()
         print(' ========== Question token vocab size:', self.token_size)
 
@@ -116,7 +117,6 @@ class DataSet(BaseDataSet):
             pretrained_emb.append(spacy_tool('CLS').vector)
 
         for ques in stat_ques_list:
-            print(ques)
             words = re.sub(
                 r"([.,'!?\"()*#:;])",
                 '',
