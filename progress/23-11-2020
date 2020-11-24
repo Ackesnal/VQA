@@ -1,0 +1,31 @@
+1. Finish experiments with modified GA, which uses image to extract the key and value, and uses question to extract the query. The accuracy decreased.
+
+2. Finish experiments with modified CO-GA, which eliminates the encoder in the transformer and extracts the attention interleavingly. The accuracy is 53%. 
+
+3. Modify the openvqa model so that it can extract the pos-tag when preprocessing the question. Modified files:
+    3.1 'utils/test_engine.py' & 'utils/train_engine.py' : 
+        a) add postag_size to the Net()
+        b) add ques_pos_iter, which is get from the dataset
+        c) use sub_ques_pos_iter in the forward inference
+    3.2 'openvqa/core/base_dataset.py' :
+        a) add torch.from_numpy(ques_pos_iter) to the returns of __getitem()__
+        b) add ques_pos_iter to the return of self.load_ques_ans(idx)
+    3.3 'openvqa/datasets/vqa/vqa_loader.py' :
+        a) add self.postag_to_ix to the return of self.tokenize(stat_ques_list, __C.USE_GLOVE)
+        b) add attribute self.postag_size
+        c) use nltk word_tokenizer() and pos_tag() in the self.tokenize() to tokenize the question sentence and get pos tag.
+        d) perform the same as tokenize() in the proc_ques() to tokenize the question and get the pos tag
+    3.4 'openvqa/models/rela/net.py' :
+        a) add self.position_embedding and self.postag_embedding, which are for two embeddings respectively
+        b) comment out the LSTM layer. 
+        c) The question feature will be extracted from the sum of three embeddings (word embedding, position embedding, pos tag embedding)
+    3.5 'openvqa/models/rela/rela.py' :
+        a) turn back to the original MCAN constructure
+    3.6 'openvqa/models/rela/adapter.py' :
+        a) add the bbox embedding with the image feature instead of concatenation.
+    3.7 'openvqa/models/model_loader.py':
+        a) redefine Net(self, __arg1, __arg2, __arg3, __arg4, __arg5) (add new __arg5)
+        b) redefine when calling self.model_moudle.Net(__arg1, __arg2, __arg3, __arg4, __arg5) (add new __arg5)
+    3.*
+        a) The Net() should have 5 arguments instead of 4 now. New argument is the postag_size
+        b) The positional embedding will be added to both image and question instead of concatenation
