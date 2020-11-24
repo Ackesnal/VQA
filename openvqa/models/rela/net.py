@@ -101,7 +101,16 @@ class Net(nn.Module):
         # Classification layers
         self.proj_norm = LayerNorm(__C.FLAT_OUT_SIZE)
         self.proj = nn.Linear(__C.FLAT_OUT_SIZE, answer_size)
-        self.fusion = nn.Bilinear(__C.FLAT_OUT_SIZE, __C.FLAT_OUT_SIZE, __C.FLAT_OUT_SIZE)
+        
+        # Tucker Decomposition For Bilinear Fusion
+        self.linear1 = nn.Linear(__C.FLAT_OUT_SIZE, 200)
+        self.linear2 = nn.Linear(__C.FLAT_OUT_SIZE, 200)
+        self.bilinear = nn.Bilinear(200,200,200)
+        self.linear3 = nn.Linear(200, __C.FLAT_OUT_SIZE)
+        self.dropout1 = nn.Dropout(__C.DROPOUT_R)
+        self.dropout2 = nn.Dropout(__C.DROPOUT_R)
+        self.dropout3 = nn.Dropout(__C.DROPOUT_R)
+        
         
     def forward(self, frcn_feat, grid_feat, bbox_feat, ques_ix, ques_postag):
 
@@ -137,9 +146,15 @@ class Net(nn.Module):
         )
 
         # Classification layers
-        proj_feat = self.fusion(lang_feat, img_feat)
+        proj_feat = self.TuckerFusion(lang_feat, img_feat)
         proj_feat = self.proj_norm(proj_feat)
         proj_feat = self.proj(proj_feat)
 
         return proj_feat
-
+    
+    def TuckerFusion(self, lang_feat, img_feat):
+        lang_feat = self.dropout1(self.linear1(lang_feat))
+        img_feat = self.dropout2(self.linear2(img_feat))
+        fused_feat = self.dropout3(self.linear3(self.bilinear(lang_feat, img_feat)))
+        return fused_feat
+        
