@@ -1,0 +1,12 @@
+1. Fix bugs in yesterday's update
+
+2. Add tuker decomposition to achieve efficient bilinear fusion of the img_feat and lang_feat.
+
+3. Training model with batch size 128, learning rate 0.00001
+
+4. Discuss with Moshiur about the MPhil
+    a) Need to confirm what might be the graduation criteria
+    b) Need to consider what to achieve in a broader range (general visionlinguistic problem)
+    c) Need to come up with a research plan in the 2 years
+    d) Need to formalize the ideas
+    e) Have a look at the Grid paper which might be helpful with end2end training
