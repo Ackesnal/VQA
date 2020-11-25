@@ -4,6 +4,8 @@
 
 3. Training model with batch size 128, learning rate 0.00001
 
+    *3.1 The accuracy of postag embedding + positional embedding + word embedding & bounding box embedding + image feature & bilinear fusion is 55.64%
+
 4. Discuss with Moshiur about the MPhil
     a) Need to confirm what might be the graduation criteria
     b) Need to consider what to achieve in a broader range (general visionlinguistic problem)
