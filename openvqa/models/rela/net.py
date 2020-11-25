@@ -66,7 +66,7 @@ class Net(nn.Module):
         self.__C = __C
     
         if __C.USE_BERT:
-            self.pretrained_emb = pretrained_emb
+            self.pretrained_emb = pretrained_emb.cuda()
             
         self.embedding = nn.Embedding(
             num_embeddings=token_size,
