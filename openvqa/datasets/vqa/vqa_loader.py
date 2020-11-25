@@ -271,10 +271,10 @@ class DataSet(BaseDataSet):
             print("Use pretrained BERT to tokenize the question.")
             ques_ix = self.tokenizer(ques['question'])['input_ids']
             if len(ques_ix) > max_token:
-                ques_ix = ques_is[:max_token]
+                ques_ix = ques_ix[:max_token]
             else:
                 ques_ix = ques_ix + [0] * (max_token - len(ques_ix))
-            return ques_is[:max_token], []
+            return ques_ix[:max_token], []
             
         ques_ix = np.zeros(max_token, np.int64)
         ques_pos = np.zeros(max_token, np.int64)
