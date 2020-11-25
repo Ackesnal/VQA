@@ -1,0 +1,3 @@
+1. Since the previous experiment of aggregating the three embeddings failed, I changed to BERT model for obtaining the question feature
+
+2. Add a new attribute "USE_BERT" to the configure file. It is prior to USE_GLOVE. If "USE_BERT" is true, the token_to_ix and embeddings will all be substituted by "BERT_LARGE_CASED" model.
