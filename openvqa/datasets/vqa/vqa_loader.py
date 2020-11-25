@@ -16,7 +16,6 @@ class DataSet(BaseDataSet):
     def __init__(self, __C):
         
         super(DataSet, self).__init__()
-        print("HERE!!!!!!")
         self.__C = __C
 
         # --------------------------
@@ -271,6 +270,7 @@ class DataSet(BaseDataSet):
         if self.__C.USE_BERT:
             print("Use pretrained BERT to tokenize the question.")
             ques_ix = self.tokenizer(ques)['input_ids']
+            print(ques_ix)
             return ques_is[:max_token], []
             
         ques_ix = np.zeros(max_token, np.int64)
