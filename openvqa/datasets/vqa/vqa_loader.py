@@ -9,6 +9,8 @@ from nltk import word_tokenize
 import nltk
 from openvqa.core.base_dataset import BaseDataSet
 from openvqa.utils.ans_punct import prep_ans
+from transformers import AutoTokenizer
+from transformers import BertModel
 
 class DataSet(BaseDataSet):
     def __init__(self, __C):
@@ -67,7 +69,7 @@ class DataSet(BaseDataSet):
         self.qid_to_ques = self.ques_load(self.ques_list)
 
         # Tokenize
-        self.token_to_ix, self.pretrained_emb, self.postag_to_ix = self.tokenize(stat_ques_list, __C.USE_GLOVE)
+        self.token_to_ix, self.pretrained_emb, self.postag_to_ix = self.tokenize(stat_ques_list, __C.USE_GLOVE, __C.USE_BERT)
         self.token_size = self.token_to_ix.__len__()
         self.postag_size = self.postag_to_ix.__len__()
         print(' ========== Question token vocab size:', self.token_size)
@@ -103,42 +105,55 @@ class DataSet(BaseDataSet):
         return qid_to_ques
 
 
-    def tokenize(self, stat_ques_list, use_glove):
-        token_to_ix = {
-            'PAD': 0,
-            'UNK': 1,
-            'CLS': 2,
-        }
-        postag_to_ix = {'PAD' : 0, 'UNK' : 1}
+    def tokenize(self, stat_ques_list, use_glove, use_bert):
+        
+        if use_bert:
+            print("Use pretrained BERT model, loading ...")
+            model = BertModel.from_pretrained('bert-large-cased')
+            tokenizer = AutoTokenizer.from_pretrained('bert-large-cased')
+            token_to_ix = tokenizer.get_vocab()
+            pretrained_emb = model.get_input_embeddings()
+            postag_to_ix = None
+        
+        else:    
+            token_to_ix = {
+                'PAD': 0,
+                'UNK': 1,
+                'CLS': 2,
+            }
+            postag_to_ix = {'PAD' : 0, 'UNK' : 1}
 
-        spacy_tool = None
-        pretrained_emb = []
-        if use_glove:
-            spacy_tool = en_vectors_web_lg.load()
-            pretrained_emb.append(spacy_tool('PAD').vector)
-            pretrained_emb.append(spacy_tool('UNK').vector)
-            pretrained_emb.append(spacy_tool('CLS').vector)
+            spacy_tool = None
+            pretrained_emb = []
 
-        for ques in stat_ques_list:
-            words = re.sub(
-                r"([.,'!?\"()*#:;])",
-                '',
-                ques['question'].lower()
-            ).replace('-', ' ').replace('/', ' ')
-            
-            words = nltk.word_tokenize(words)
-            pos_tags = nltk.pos_tag(words)
-            
-            for word, tag in pos_tags:
-                if word not in token_to_ix:
-                    token_to_ix[word] = len(token_to_ix)
-                    if use_glove:
-                        pretrained_emb.append(spacy_tool(word).vector)
-                if tag not in postag_to_ix:
-                    postag_to_ix[tag] = len(postag_to_ix)
-            
 
-        pretrained_emb = np.array(pretrained_emb)
+            if use_glove:
+                spacy_tool = en_vectors_web_lg.load()
+                pretrained_emb.append(spacy_tool('PAD').vector)
+                pretrained_emb.append(spacy_tool('UNK').vector)
+                pretrained_emb.append(spacy_tool('CLS').vector)
+
+
+            for ques in stat_ques_list:
+                words = re.sub(
+                    r"([.,'!?\"()*#:;])",
+                    '',
+                    ques['question'].lower()
+                ).replace('-', ' ').replace('/', ' ')
+
+                words = nltk.word_tokenize(words)
+                pos_tags = nltk.pos_tag(words)
+
+                for word, tag in pos_tags:
+                    if word not in token_to_ix:
+                        token_to_ix[word] = len(token_to_ix)
+                        if use_glove:
+                            pretrained_emb.append(spacy_tool(word).vector)
+                    if tag not in postag_to_ix:
+                        postag_to_ix[tag] = len(postag_to_ix)
+
+
+            pretrained_emb = np.array(pretrained_emb)
 
         return token_to_ix, pretrained_emb, postag_to_ix
 
@@ -184,7 +199,7 @@ class DataSet(BaseDataSet):
             iid = str(ans['image_id'])
 
             # Process question
-            ques_ix_iter, ques_pos_iter = self.proc_ques(ques, self.token_to_ix, self.postag_to_ix, max_token=14)
+            ques_ix_iter, ques_pos_iter = self.proc_ques(ques, self.token_to_ix, self.postag_to_ix, max_token=20)
 
             # Process answer
             ans_iter = self.proc_ans(ans, self.ans_to_ix)
@@ -195,7 +210,7 @@ class DataSet(BaseDataSet):
             ques = self.ques_list[idx]
             iid = str(ques['image_id'])
 
-            ques_ix_iter, ques_pos_iter = self.proc_ques(ques, self.token_to_ix, self.postag_to_ix, max_token=14)
+            ques_ix_iter, ques_pos_iter = self.proc_ques(ques, self.token_to_ix, self.postag_to_ix, max_token=20)
 
             return ques_ix_iter, ques_pos_iter, np.zeros(1), iid
 
@@ -251,6 +266,14 @@ class DataSet(BaseDataSet):
 
 
     def proc_ques(self, ques, token_to_ix, postag_to_ix, max_token):
+        if self.__C.USE_BERT:
+            print("Use pretrained BERT to tokenize the question.")
+            tokenizer = AutoTokenizer.from_pretrained('bert-large-cased')
+            ques_ix = tokenizer(ques)['input_ids']
+            return ques_is[:max_token], []
+            
+            
+            
         ques_ix = np.zeros(max_token, np.int64)
         ques_pos = np.zeros(max_token, np.int64)
 
