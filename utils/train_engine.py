@@ -191,6 +191,7 @@ def train_engine(__C, dataset, dataset_eval=None):
                         loss_item[item_ix] = eval('F.' + loss_nonlinear + '(loss_item[item_ix], dim=1)')
 
                 loss = loss_fn(loss_item[0], loss_item[1])
+                print(loss)
                 if __C.LOSS_REDUCTION == 'mean':
                     # only mean-reduction needs be divided by grad_accu_steps
                     loss /= __C.GRAD_ACCU_STEPS
