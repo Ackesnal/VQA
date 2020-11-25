@@ -268,7 +268,7 @@ class DataSet(BaseDataSet):
 
     def proc_ques(self, ques, token_to_ix, postag_to_ix, max_token):
         if self.__C.USE_BERT:
-            print("Use pretrained BERT to tokenize the question.")
+            # print("Use pretrained BERT to tokenize the question.")
             ques_ix = self.tokenizer(ques['question'])['input_ids']
             if len(ques_ix) > max_token:
                 ques_ix = ques_ix[:max_token]
