@@ -106,10 +106,10 @@ class Net(nn.Module):
         self.proj = nn.Linear(__C.FLAT_OUT_SIZE, answer_size)
         
         # Tucker Decomposition For Bilinear Fusion
-        self.linear1 = nn.Linear(__C.FLAT_OUT_SIZE, 200)
-        self.linear2 = nn.Linear(__C.FLAT_OUT_SIZE, 200)
-        self.bilinear = nn.Bilinear(200,200,200)
-        self.linear3 = nn.Linear(200, __C.FLAT_OUT_SIZE)
+        self.linear1 = nn.Linear(__C.FLAT_OUT_SIZE, 1000)
+        self.linear2 = nn.Linear(__C.FLAT_OUT_SIZE, 1000)
+        self.bilinear = nn.Bilinear(1000,1000,1000)
+        self.linear3 = nn.Linear(1000, __C.FLAT_OUT_SIZE)
         self.dropout1 = nn.Dropout(__C.DROPOUT_R)
         self.dropout2 = nn.Dropout(__C.DROPOUT_R)
         self.dropout3 = nn.Dropout(__C.DROPOUT_R)
@@ -119,8 +119,8 @@ class Net(nn.Module):
 
         # Pre-process Language Feature
         if self.__C.USE_BERT:
+            lang_feat_mask = make_mask(ques_ix.unsqueeze(2))
             lang_feat = self.pretrained_emb(ques_ix)
-            print(lang_feat, lang_feat.shape)
         else:
             lang_feat_mask = make_mask(ques_ix.unsqueeze(2))
             lang_feat = self.embedding(ques_ix)
