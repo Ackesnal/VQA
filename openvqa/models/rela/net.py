@@ -116,10 +116,6 @@ class Net(nn.Module):
         
         
     def forward(self, frcn_feat, grid_feat, bbox_feat, ques_ix, ques_postag):
-        print(torch.max(ques_ix), torch.min(ques_ix))
-        if int(torch.max(ques_ix)) >= 28996 or int(torch.min(ques_ix)) < 0:
-            print(torch.max(ques_ix), torch.min(ques_ix))
-            return
                   
         # Pre-process Language Feature
         if self.__C.USE_BERT:
