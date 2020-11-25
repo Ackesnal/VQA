@@ -116,7 +116,7 @@ class Net(nn.Module):
         
         
     def forward(self, frcn_feat, grid_feat, bbox_feat, ques_ix, ques_postag):
-
+        print(torch.max(ques_ix), torch.min(ques_ix))
         # Pre-process Language Feature
         if self.__C.USE_BERT:
             lang_feat_mask = make_mask(ques_ix.unsqueeze(2))
