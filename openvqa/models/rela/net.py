@@ -106,10 +106,10 @@ class Net(nn.Module):
         self.proj = nn.Linear(__C.FLAT_OUT_SIZE, answer_size)
         
         # Tucker Decomposition For Bilinear Fusion
-        self.linear1 = nn.Linear(__C.FLAT_OUT_SIZE, 1000)
-        self.linear2 = nn.Linear(__C.FLAT_OUT_SIZE, 1000)
-        self.bilinear = nn.Bilinear(1000,1000,1000)
-        self.linear3 = nn.Linear(1000, __C.FLAT_OUT_SIZE)
+        self.linear1 = nn.Linear(__C.FLAT_OUT_SIZE, 512)
+        self.linear2 = nn.Linear(__C.FLAT_OUT_SIZE, 512)
+        self.bilinear = nn.Bilinear(512,512,512)
+        self.linear3 = nn.Linear(512, __C.FLAT_OUT_SIZE)
         self.dropout1 = nn.Dropout(__C.DROPOUT_R)
         self.dropout2 = nn.Dropout(__C.DROPOUT_R)
         self.dropout3 = nn.Dropout(__C.DROPOUT_R)
