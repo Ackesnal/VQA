@@ -8,7 +8,7 @@ from openvqa.ops.fc import FC, MLP
 from openvqa.ops.layer_norm import LayerNorm
 from openvqa.models.rela.rela import MCA_ED
 from openvqa.models.rela.adapter import Adapter
-
+import sys
 import torch.nn as nn
 import torch.nn.functional as F
 import torch
@@ -66,14 +66,14 @@ class Net(nn.Module):
         self.__C = __C
     
         if __C.USE_BERT:
-            self.pretrained_emb = pretrained_emb.cuda()
+            self.pretrained_emb = pretrained_emb
             
         self.embedding = nn.Embedding(
             num_embeddings=token_size,
             embedding_dim=__C.HIDDEN_SIZE
         )
         self.position_embedding = nn.Embedding(
-            num_embeddings=15,
+            num_embeddings=20,
             embedding_dim=__C.HIDDEN_SIZE
         )
         self.postag_embedding = nn.Embedding(
@@ -116,13 +116,11 @@ class Net(nn.Module):
         
         
     def forward(self, frcn_feat, grid_feat, bbox_feat, ques_ix, ques_postag):
-                  
         # Pre-process Language Feature
         if self.__C.USE_BERT:
             lang_feat_mask = make_mask(ques_ix.unsqueeze(2))
             position_embed = self.position_embedding(torch.arange(ques_ix.shape[1], device='cuda').repeat(ques_ix.shape[0], 1))
             lang_feat = self.pretrained_emb(ques_ix)
-            lang_feat = lang_feat.cuda()
         else:
             lang_feat_mask = make_mask(ques_ix.unsqueeze(2))
             lang_feat = self.embedding(ques_ix)
