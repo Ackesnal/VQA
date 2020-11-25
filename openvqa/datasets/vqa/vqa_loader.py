@@ -115,7 +115,7 @@ class DataSet(BaseDataSet):
             print("Use pretrained BERT model, loading ...")
             token_to_ix = self.tokenizer.get_vocab()
             pretrained_emb = self.model.get_input_embeddings()
-            postag_to_ix = None
+            postag_to_ix = []
         else:    
             token_to_ix = {
                 'PAD': 0,
