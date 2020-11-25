@@ -122,6 +122,7 @@ class Net(nn.Module):
             lang_feat_mask = make_mask(ques_ix.unsqueeze(2))
             position_embed = self.position_embedding(torch.arange(ques_ix.shape[1], device='cuda').repeat(ques_ix.shape[0], 1))
             lang_feat = self.pretrained_emb(ques_ix)
+            lang_feat = lang_feat.cuda()
         else:
             lang_feat_mask = make_mask(ques_ix.unsqueeze(2))
             lang_feat = self.embedding(ques_ix)
