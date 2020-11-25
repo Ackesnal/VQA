@@ -9,8 +9,8 @@ from nltk import word_tokenize
 import nltk
 from openvqa.core.base_dataset import BaseDataSet
 from openvqa.utils.ans_punct import prep_ans
-#from transformers import AutoTokenizer
-#from transformers import BertModel
+from transformers import AutoTokenizer
+from transformers import BertModel
 
 class DataSet(BaseDataSet):
     def __init__(self, __C):
