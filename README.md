@@ -191,6 +191,25 @@ Answer:
 5. Apply
 ```
 
+<br>
+<br>
+
+#### 5. To see whether different embeddings affect the performance.
+
+In the original MCAN/MMNASNET, the question feature is directly derived from a LSTM layer with word embeddings from GloVe, the image feature is extracted by Faster-RCNN
+
+No positional embedding is added to the question feature, unlike BERT using positional embedding or Transformer using positional encoding.
+
+The bounding boxes are embedded to the same size of the image and concatenate to the end of image feature.
+
+The current issues are:
+
+    1. Whether concatenation is better than aggregation
+    
+    2. Whether positonal embedding (or even other embeddings) is better
+    
+    3. Whether training from scretch is better
+
 ---
 
 ## Findings
