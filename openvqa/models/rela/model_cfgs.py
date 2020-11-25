@@ -22,3 +22,4 @@ class Cfgs(BaseCfgs):
         self.USE_AUX_FEAT = False
         self.USE_BBOX_FEAT = True
         self.BBOX_NORMALIZE = True
+        self.USE_BERT = True
