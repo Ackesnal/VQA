@@ -26,7 +26,7 @@ class DataSet(BaseDataSet):
             glob.glob(__C.FEATS_PATH[__C.DATASET]['train'] + '/*.npz') + \
             glob.glob(__C.FEATS_PATH[__C.DATASET]['val'] + '/*.npz') + \
             glob.glob(__C.FEATS_PATH[__C.DATASET]['test'] + '/*.npz')
-
+        print("HERE!!!!!!")
         # Loading question word list
         stat_ques_list = \
             json.load(open(__C.RAW_PATH[__C.DATASET]['train'], 'r'))['questions'] + \
