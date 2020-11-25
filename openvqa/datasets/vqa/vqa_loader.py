@@ -274,7 +274,7 @@ class DataSet(BaseDataSet):
                 ques_ix = ques_ix[:max_token]
             else:
                 ques_ix = ques_ix + [0] * (max_token - len(ques_ix))
-            return ques_ix[:max_token], []
+            return np.array(ques_ix[:max_token]), np.array([])
             
         ques_ix = np.zeros(max_token, np.int64)
         ques_pos = np.zeros(max_token, np.int64)
