@@ -69,6 +69,9 @@ class DataSet(BaseDataSet):
         self.qid_to_ques = self.ques_load(self.ques_list)
 
         # Tokenize
+        if __C.USE_BERT:
+            self.model = BertModel.from_pretrained('bert-large-cased')
+            self.tokenizer = AutoTokenizer.from_pretrained('bert-large-cased')
         self.token_to_ix, self.pretrained_emb, self.postag_to_ix = self.tokenize(stat_ques_list, __C.USE_GLOVE, __C.USE_BERT)
         self.token_size = self.token_to_ix.__len__()
         self.postag_size = self.postag_to_ix.__len__()
@@ -109,12 +112,9 @@ class DataSet(BaseDataSet):
         
         if use_bert:
             print("Use pretrained BERT model, loading ...")
-            model = BertModel.from_pretrained('bert-large-cased')
-            tokenizer = AutoTokenizer.from_pretrained('bert-large-cased')
-            token_to_ix = tokenizer.get_vocab()
-            pretrained_emb = model.get_input_embeddings()
+            token_to_ix = self.tokenizer.get_vocab()
+            pretrained_emb = self.model.get_input_embeddings()
             postag_to_ix = None
-        
         else:    
             token_to_ix = {
                 'PAD': 0,
@@ -268,11 +268,8 @@ class DataSet(BaseDataSet):
     def proc_ques(self, ques, token_to_ix, postag_to_ix, max_token):
         if self.__C.USE_BERT:
             print("Use pretrained BERT to tokenize the question.")
-            tokenizer = AutoTokenizer.from_pretrained('bert-large-cased')
-            ques_ix = tokenizer(ques)['input_ids']
+            ques_ix = self.tokenizer(ques)['input_ids']
             return ques_is[:max_token], []
-            
-            
             
         ques_ix = np.zeros(max_token, np.int64)
         ques_pos = np.zeros(max_token, np.int64)
