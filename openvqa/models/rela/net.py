@@ -64,7 +64,10 @@ class Net(nn.Module):
     def __init__(self, __C, pretrained_emb, token_size, answer_size, postag_size):
         super(Net, self).__init__()
         self.__C = __C
-
+    
+        if __C.USE_BERT:
+            self.pretrained_emb = pretrained_emb
+            
         self.embedding = nn.Embedding(
             num_embeddings=token_size,
             embedding_dim=__C.HIDDEN_SIZE
@@ -115,13 +118,17 @@ class Net(nn.Module):
     def forward(self, frcn_feat, grid_feat, bbox_feat, ques_ix, ques_postag):
 
         # Pre-process Language Feature
-        lang_feat_mask = make_mask(ques_ix.unsqueeze(2))
-        lang_feat = self.embedding(ques_ix)
-        #self.lstm.flatten_parameters()
-        #lang_feat, _ = self.lstm(lang_feat)
-        position_embed = self.position_embedding(torch.arange(ques_ix.shape[1], device='cuda').repeat(ques_ix.shape[0], 1))
-        postag_embed = self.postag_embedding(ques_postag)
-        lang_feat = lang_feat + position_embed + postag_embed
+        if self.__C.USE_BERT:
+            lang_feat = self.pretrained_emb(ques_ix)
+            print(lang_feat, lang_feat.shape)
+        else:
+            lang_feat_mask = make_mask(ques_ix.unsqueeze(2))
+            lang_feat = self.embedding(ques_ix)
+            #self.lstm.flatten_parameters()
+            #lang_feat, _ = self.lstm(lang_feat)
+            position_embed = self.position_embedding(torch.arange(ques_ix.shape[1], device='cuda').repeat(ques_ix.shape[0], 1))
+            postag_embed = self.postag_embedding(ques_postag)
+            lang_feat = lang_feat + position_embed + postag_embed
         img_feat, img_feat_mask, bbox_feat = self.adapter(frcn_feat, grid_feat, bbox_feat)
 
         # Backbone Framework
