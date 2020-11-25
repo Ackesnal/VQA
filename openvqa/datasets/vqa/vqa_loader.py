@@ -272,7 +272,7 @@ class DataSet(BaseDataSet):
             ques_ix = self.tokenizer(ques)['input_ids']
             if len(ques_ix) > max_token:
                 ques_ix = ques_is[:max_token]
-            else
+            else:
                 ques_ix = ques_ix + [0] * (max_token - len(ques_ix))
             return ques_is[:max_token], []
             
