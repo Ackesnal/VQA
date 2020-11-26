@@ -1,6 +1,6 @@
 1. The former experiment:
     BERT-embedding + Bilinear fusion for VA and QA + 4 layers
-   does not result in good performance. The model meets with overfitting at epoch 10. The highest accuracy is 64.11% at validation set
+   does not result in good performance. The model meets with overfitting at epoch 10. The highest accuracy is ×64.11% (TBD) at validation set
    
 2. Therefore, I changed the model:
    2.1 Increase the kernel size of bilinear fusion via tucker decomposition from 200 to 512 (Increasing the generalization)
