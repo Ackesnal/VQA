@@ -29,7 +29,7 @@ def train_engine(__C, dataset, dataset_eval=None):
         net = nn.DataParallel(net, device_ids=__C.DEVICES)
 
     # Define Loss Function
-    loss_fn = eval('torch.nn.' + __C.LOSS_FUNC_NAME_DICT[__C.LOSS_FUNC] + "(reduction='" + __C.LOSS_REDUCTION + "').cuda()")
+    loss_fn = eval('torch.nn.' + __C.LOSS_FUNC_NAME_DICT[__C.LOSS_FUNC] + "(reduction='" + __C.LOSS_REDUCTION + "').cuda(0)")
     
     #if __C.N_GPU > 1:
     #    loss_fn = nn.DataParallel(loss_fn, device_ids=__C.DEVICES)
