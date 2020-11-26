@@ -271,14 +271,11 @@ class MCA_ED(nn.Module):
         self.sim = nn.CosineSimilarity(dim = 1).cuda()
         
     def forward(self, y, x, y_mask, x_mask, y_pos, bbox):
-        print(bbox.shape)
-        # Get encoder last hidden vector
-        sim_matrix = torch.zeros(bbox.shape[0], bbox.shape[1], bbox.shape[1]).cuda()
-        for i in range(bbox.shape[1]):
-            for j in range(bbox.shape[1]):
-                sim_matrix[:, i, j] = self.sim(bbox[:, i, :], bbox[:, j, :])
-        sim_matrix = sim_matrix.unsqueeze(1).repeat(1,self.__C.MULTI_HEAD,1,1)
-                
+        prod = torch.matmul(bbox, bbox.transpose(-1, -2))
+        norm = torch.norm(bbox, p = 2, dim = -1).unsqueeze(-1)
+        norm = torch.matmul(norm, norm.transpose(-1, -2))
+        sim_matrix = prod / norm
+        print(sim_matrix)
         for enc in self.enc_list:
             y = enc(y, y_mask)
         for dec in self.dec_list:
