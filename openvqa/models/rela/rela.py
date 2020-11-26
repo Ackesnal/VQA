@@ -136,12 +136,12 @@ class MHAttRela(nn.Module):
             for j in range(bbox_feat.shape[1]):
                 sim_matrix[:, i, j] = self.sim(bbox_feat[:, i, :], bbox_feat[:, j, :])
                 
-        scores = torch.matmul(sim_matrix, torch.matmul(query, key.transpose(-2, -1))) / math.sqrt(d_k)
+        scores = torch.matmul(query, key.transpose(-2, -1)) / math.sqrt(d_k)
         
         if mask is not None:
             scores = scores.masked_fill(mask, -1e9)
 
-        att_map = F.softmax(scores, dim=-1)
+        att_map = torch.matmul(sim_matrix, F.softmax(scores, dim=-1))
         att_map = self.dropout(att_map)
 
         return torch.matmul(att_map, value)
@@ -232,9 +232,9 @@ class SGA(nn.Module):
 
     
     
-class COGA(nn.Module):
+class RELAGA(nn.Module):
     def __init__(self, __C):
-        super(COGA, self).__init__()
+        super(RELAGA, self).__init__()
         
         self.mhatt1 = MHAttRela(__C)
         self.mhatt2 = MHAttRela(__C)
@@ -272,8 +272,8 @@ class MCA_ED(nn.Module):
         super(MCA_ED, self).__init__()
 
         self.enc_list = nn.ModuleList([SA(__C) for _ in range(__C.LAYER)])
-        self.dec_list = nn.ModuleList([SGA(__C) for _ in range(__C.LAYER)])
-        #self.enc_list = nn.ModuleList([COGA(__C) for _ in range(__C.LAYER)])
+        #self.dec_list = nn.ModuleList([SGA(__C) for _ in range(__C.LAYER)])
+        self.dec_list = nn.ModuleList([RELAGA(__C) for _ in range(__C.LAYER)])
         
     def forward(self, y, x, y_mask, x_mask, y_pos, x_pos):
         # Get encoder last hidden vector
