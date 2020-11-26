@@ -268,16 +268,15 @@ class MCA_ED(nn.Module):
         self.enc_list = nn.ModuleList([SA(__C) for _ in range(__C.LAYER)])
         #self.dec_list = nn.ModuleList([SGA(__C) for _ in range(__C.LAYER)])
         self.dec_list = nn.ModuleList([RELAGA(__C) for _ in range(__C.LAYER)])
-        self.sim = nn.CosineSimilarity(dim = 1)
+        self.sim = nn.CosineSimilarity(dim = 1).cuda()
         
     def forward(self, y, x, y_mask, x_mask, y_pos, bbox):
         # Get encoder last hidden vector
-        sim_matrix = torch.zeros(bbox.shape[0], bbox.shape[1], bbox.shape[1])
+        sim_matrix = torch.zeros(bbox.shape[0], bbox.shape[1], bbox.shape[1]).cuda()
         for i in range(bbox.shape[1]):
             for j in range(bbox.shape[1]):
                 sim_matrix[:, i, j] = self.sim(bbox[:, i, :], bbox[:, j, :])
         sim_matrix = sim_matrix.unsqueeze(1).repeat(1,self.__C.MULTI_HEAD,1,1)
-        print(sim_matrix.shape)
                 
         for enc in self.enc_list:
             y = enc(y, y_mask)
