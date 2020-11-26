@@ -280,7 +280,7 @@ class MCA_ED(nn.Module):
         for enc in self.enc_list:
             y = enc(y, y_mask)
         for dec in self.dec_list:
-            x = dec(x, y, x_mask, y_mask)
+            x = dec(x, y, x_mask, y_mask, x_pos)
             
         #for enc in self.enc_list:
         #    x, y = enc(x, y, x_mask, y_mask, x_pos, y_pos)
