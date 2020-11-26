@@ -130,7 +130,7 @@ class Net(nn.Module):
             position_embed = self.position_embedding(torch.arange(ques_ix.shape[1], device='cuda').repeat(ques_ix.shape[0], 1))
             postag_embed = self.postag_embedding(ques_postag)
             lang_feat = lang_feat + position_embed + postag_embed
-        img_feat, img_feat_mask, bbox_feat = self.adapter(frcn_feat, grid_feat, bbox_feat)
+        img_feat, img_feat_mask, bbox_feat, sim_matrix = self.adapter(frcn_feat, grid_feat, bbox_feat)
 
         # Backbone Framework
         lang_feat, img_feat = self.backbone(
