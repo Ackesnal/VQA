@@ -29,7 +29,7 @@ def train_engine(__C, dataset, dataset_eval=None):
         net = nn.DataParallel(net, device_ids=__C.DEVICES[:-1])
 
     # Define Loss Function
-    loss_fn = eval('torch.nn.' + __C.LOSS_FUNC_NAME_DICT[__C.LOSS_FUNC] + "(reduction='" + __C.LOSS_REDUCTION + "').cuda("+str(__C.DEVICES[:-1])+")")
+    loss_fn = eval('torch.nn.' + __C.LOSS_FUNC_NAME_DICT[__C.LOSS_FUNC] + "(reduction='" + __C.LOSS_REDUCTION + "').cuda()")
     
     #if __C.N_GPU > 1:
     #    loss_fn = nn.DataParallel(loss_fn, device_ids=__C.DEVICES)
@@ -194,7 +194,7 @@ def train_engine(__C, dataset, dataset_eval=None):
                 if __C.LOSS_REDUCTION == 'mean':
                     # only mean-reduction needs be divided by grad_accu_steps
                     loss /= __C.GRAD_ACCU_STEPS
-                loss.cuda(0).backward()
+                loss.backward()
 
                 loss_tmp += loss.cpu().data.numpy() * __C.GRAD_ACCU_STEPS
                 loss_sum += loss.cpu().data.numpy() * __C.GRAD_ACCU_STEPS
