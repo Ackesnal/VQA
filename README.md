@@ -38,9 +38,11 @@ To identify the part of speech (POS) of each word.
 
 3.2 Using POS and Bounding Boxes to extract vision attention
 
+
 #### 5. Derive relationship via b-box
 
 Calculate the type of relationship between two objects by their bounding boxes and feature maps.
+
 
 <br>
 <br>
@@ -58,7 +60,27 @@ Initial idea:
 <br>
 <br>
 
-#### 6. 
+#### 6. Use postional similarity
+
+For input image and question,
+
+1) Key from question that has shape __d<sub>y</sub> * n__
+
+2) Value from question that has shape __d<sub>y</sub> * n__
+
+3) Query from image that has shape __d<sub>x</sub> * n__
+
+4) Bounding box embedding from image that has shape __d<sub>x</sub> * m__
+
+**Firstly**, calculate the (cosine or etc) similarity between each pair of bounding boxes to get Pos_Sim that has shape __d<sub>x</sub> * d<sub>x</sub>__.
+
+Pos_Sim<sub>i,j</sub> represents the similarity between item i and j.
+
+**IMPORTANT**, it should be directional, i.e.  Pos_Sim<sub>i,j</sub> != Pos_Sim<sub>j,i</sub>
+
+**Secondly**, calculate Sim = Query * Key<sup>T</sup> that has shape __d<sub>x</sub> * d<sub>y</sub>__
+
+**Thirdly**, calculate the refined similarity by **Pos_Sim * Sim** whose result has shape __d<sub>x</sub> * d<sub>y</sub>__
 
 <br>
 <br>
