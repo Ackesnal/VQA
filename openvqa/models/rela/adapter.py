@@ -51,7 +51,7 @@ class Adapter(BaseAdapter):
             bbox_feat = self.bbox_linear(bbox_feat)
             #frcn_feat = torch.cat((frcn_feat, bbox_feat), dim=-1)
         frcn_feat = self.frcn_linear(frcn_feat)
-        img_feat = frcn_feat + bbox_feat
+        img_feat = frcn_feat# + bbox_feat
         
         return img_feat, img_feat_mask, bbox_feat
 
