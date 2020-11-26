@@ -13,7 +13,7 @@ class Adapter(BaseAdapter):
     def __init__(self, __C):
         super(Adapter, self).__init__(__C)
         self.__C = __C
-        self.sim = nn.CosineSimilarity(dim = 2)
+        self.sim = nn.CosineSimilarity(dim = 1)
 
     def bbox_proc(self, bbox):
         area = (bbox[:, :, 2] - bbox[:, :, 0]) * (bbox[:, :, 3] - bbox[:, :, 1])
@@ -53,6 +53,7 @@ class Adapter(BaseAdapter):
             sim_matrix = torch.zeros(bbox_feat.shape[0], bbox_feat.shape[1], bbox_feat.shape[1])
             for i in range(bbox_feat.shape[1]):
                 for j in range(bbox_feat.shape[1]):
+                    print(bbox_feat[:, i, :].shape)
                     sim_matrix[:, i, j] = self.sim(bbox_feat[:, i, :], bbox_feat[:, j, :])
             print(sim_matrix, sim_matrix.shape)
             #frcn_feat = torch.cat((frcn_feat, bbox_feat), dim=-1)
