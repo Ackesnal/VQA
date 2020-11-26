@@ -137,7 +137,7 @@ class MHAttRela(nn.Module):
 
         att_map = torch.matmul(bbox, F.softmax(scores, dim=-1))
         att_map = self.dropout(att_map)
-
+        
         return torch.matmul(att_map, value)
     
 # ---------------------------
@@ -264,7 +264,7 @@ class RELAGA(nn.Module):
 class MCA_ED(nn.Module):
     def __init__(self, __C):
         super(MCA_ED, self).__init__()
-
+        self.__C = __C
         self.enc_list = nn.ModuleList([SA(__C) for _ in range(__C.LAYER)])
         #self.dec_list = nn.ModuleList([SGA(__C) for _ in range(__C.LAYER)])
         self.dec_list = nn.ModuleList([RELAGA(__C) for _ in range(__C.LAYER)])
@@ -276,6 +276,8 @@ class MCA_ED(nn.Module):
         for i in range(bbox.shape[1]):
             for j in range(bbox.shape[1]):
                 sim_matrix[:, i, j] = self.sim(bbox[:, i, :], bbox[:, j, :])
+        sim_matrix = sim_matrix.unsqueeze(1).repeat(1,self.__C.MULTI_HEAD,1,1)
+        print(sim_matrix.shape)
                 
         for enc in self.enc_list:
             y = enc(y, y_mask)
