@@ -274,7 +274,7 @@ class MCA_ED(nn.Module):
         prod = torch.matmul(bbox, bbox.transpose(-1, -2))
         norm = torch.norm(bbox, p = 2, dim = -1).unsqueeze(-1)
         norm = torch.matmul(norm, norm.transpose(-1, -2))
-        sim_matrix = (prod / norm).unsqueeze(-1).repeat(1,self.__C.MULTI_HEAD,1,1)
+        sim_matrix = (prod / norm).unsqueeze(1).repeat(1,self.__C.MULTI_HEAD,1,1)
         
         for enc in self.enc_list:
             y = enc(y, y_mask)
