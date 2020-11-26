@@ -13,7 +13,6 @@ class Adapter(BaseAdapter):
     def __init__(self, __C):
         super(Adapter, self).__init__(__C)
         self.__C = __C
-        self.sim = nn.CosineSimilarity(dim = 1)
 
     def bbox_proc(self, bbox):
         area = (bbox[:, :, 2] - bbox[:, :, 0]) * (bbox[:, :, 3] - bbox[:, :, 1])
