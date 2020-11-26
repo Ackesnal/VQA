@@ -88,7 +88,6 @@ class MHAttRela(nn.Module):
         self.linear_v = nn.Linear(__C.HIDDEN_SIZE, __C.HIDDEN_SIZE)
         self.linear_k = nn.Linear(__C.HIDDEN_SIZE, __C.HIDDEN_SIZE)
         self.linear_q = nn.Linear(__C.HIDDEN_SIZE, __C.HIDDEN_SIZE)
-        self.sim = nn.CosineSimilarity(dim = 1)
         self.linear_merge = nn.Linear(__C.HIDDEN_SIZE, __C.HIDDEN_SIZE)
         self.dropout = nn.Dropout(__C.DROPOUT_R)
 
@@ -130,18 +129,13 @@ class MHAttRela(nn.Module):
 
     def att(self, value, key, query, bbox, mask):
         d_k = query.size(-1)
-
-        sim_matrix = torch.zeros(bbox_feat.shape[0], bbox_feat.shape[1], bbox_feat.shape[1])
-        for i in range(bbox_feat.shape[1]):
-            for j in range(bbox_feat.shape[1]):
-                sim_matrix[:, i, j] = self.sim(bbox_feat[:, i, :], bbox_feat[:, j, :])
-                
+        
         scores = torch.matmul(query, key.transpose(-2, -1)) / math.sqrt(d_k)
         
         if mask is not None:
             scores = scores.masked_fill(mask, -1e9)
 
-        att_map = torch.matmul(sim_matrix, F.softmax(scores, dim=-1))
+        att_map = torch.matmul(bbox, F.softmax(scores, dim=-1))
         att_map = self.dropout(att_map)
 
         return torch.matmul(att_map, value)
@@ -274,13 +268,19 @@ class MCA_ED(nn.Module):
         self.enc_list = nn.ModuleList([SA(__C) for _ in range(__C.LAYER)])
         #self.dec_list = nn.ModuleList([SGA(__C) for _ in range(__C.LAYER)])
         self.dec_list = nn.ModuleList([RELAGA(__C) for _ in range(__C.LAYER)])
+        self.sim = nn.CosineSimilarity(dim = 1)
         
-    def forward(self, y, x, y_mask, x_mask, y_pos, x_pos):
+    def forward(self, y, x, y_mask, x_mask, y_pos, bbox):
         # Get encoder last hidden vector
+        sim_matrix = torch.zeros(bbox.shape[0], bbox.shape[1], bbox.shape[1])
+        for i in range(bbox.shape[1]):
+            for j in range(bbox.shape[1]):
+                sim_matrix[:, i, j] = self.sim(bbox[:, i, :], bbox[:, j, :])
+                
         for enc in self.enc_list:
             y = enc(y, y_mask)
         for dec in self.dec_list:
-            x = dec(x, y, x_mask, y_mask, x_pos)
+            x = dec(x, y, x_mask, y_mask, sim_matrix)
             
         #for enc in self.enc_list:
         #    x, y = enc(x, y, x_mask, y_mask, x_pos, y_pos)
