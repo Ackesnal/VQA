@@ -50,12 +50,6 @@ class Adapter(BaseAdapter):
         if self.__C.USE_BBOX_FEAT:
             bbox_feat = self.bbox_proc(bbox_feat)
             bbox_feat = self.bbox_linear(bbox_feat)
-            sim_matrix = torch.zeros(bbox_feat.shape[0], bbox_feat.shape[1], bbox_feat.shape[1])
-            for i in range(bbox_feat.shape[1]):
-                for j in range(bbox_feat.shape[1]):
-                    print(bbox_feat[:, i, :].shape)
-                    sim_matrix[:, i, j] = self.sim(bbox_feat[:, i, :], bbox_feat[:, j, :])
-            print(sim_matrix, sim_matrix.shape)
             #frcn_feat = torch.cat((frcn_feat, bbox_feat), dim=-1)
         frcn_feat = self.frcn_linear(frcn_feat)
         img_feat = frcn_feat + bbox_feat
