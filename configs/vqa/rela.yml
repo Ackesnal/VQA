@@ -18,7 +18,7 @@ LR_DECAY_LIST: [10, 15]
 WARMUP_EPOCH: 3
 MAX_EPOCH: 20
 GRAD_NORM_CLIP: -1
-GRAD_ACCU_STEPS: 4 # to reduce GPU memory cost
+GRAD_ACCU_STEPS: 8 # to reduce GPU memory cost
 LOSS_FUNC: bce
 LOSS_REDUCTION: sum
 OPT: Adam
