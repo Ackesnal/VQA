@@ -130,12 +130,12 @@ class MHAttRela(nn.Module):
     def att(self, value, key, query, bbox, mask):
         d_k = query.size(-1)
         
-        scores = torch.matmul(query, key.transpose(-2, -1)) / math.sqrt(d_k)
+        scores = torch.matmul(bbox, torch.matmul(query, key.transpose(-2, -1))) / math.sqrt(d_k)
         
         if mask is not None:
             scores = scores.masked_fill(mask, -1e9)
 
-        att_map = torch.matmul(bbox, F.softmax(scores, dim=-1))
+        att_map = F.softmax(scores, dim=-1)
         att_map = self.dropout(att_map)
         
         return torch.matmul(att_map, value)
