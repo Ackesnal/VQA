@@ -266,20 +266,22 @@ class MCA_ED(nn.Module):
         super(MCA_ED, self).__init__()
         self.__C = __C
         self.enc_list = nn.ModuleList([SA(__C) for _ in range(__C.LAYER)])
-        #self.dec_list = nn.ModuleList([SGA(__C) for _ in range(__C.LAYER)])
-        self.dec_list = nn.ModuleList([RELAGA(__C) for _ in range(__C.LAYER)])
-        self.sim = nn.CosineSimilarity(dim = 1).cuda()
+        self.dec_list = nn.ModuleList([SGA(__C) for _ in range(__C.LAYER)])
+        #self.dec_list = nn.ModuleList([RELAGA(__C) for _ in range(__C.LAYER)])
+        #self.sim = nn.CosineSimilarity(dim = 1).cuda()
         
     def forward(self, y, x, y_mask, x_mask, y_pos, bbox):
-        prod = torch.matmul(bbox, bbox.transpose(-1, -2))
-        norm = torch.norm(bbox, p = 2, dim = -1).unsqueeze(-1)
-        norm = torch.matmul(norm, norm.transpose(-1, -2))
-        sim_matrix = (prod / norm).unsqueeze(1).repeat(1,self.__C.MULTI_HEAD,1,1)
+        #prod = torch.matmul(bbox, bbox.transpose(-1, -2))
+        #norm = torch.norm(bbox, p = 2, dim = -1).unsqueeze(-1)
+        #norm = torch.matmul(norm, norm.transpose(-1, -2))
+        #sim_matrix = (prod / norm).unsqueeze(1).repeat(1,self.__C.MULTI_HEAD,1,1)
         
         for enc in self.enc_list:
             y = enc(y, y_mask)
         for dec in self.dec_list:
-            x = dec(x, y, x_mask, y_mask, sim_matrix)
+            x = dec(x, y, x_mask, y_mask)
+        #for dec in self.dec_list:
+        #    x = dec(x, y, x_mask, y_mask, sim_matrix)
             
         #for enc in self.enc_list:
         #    x, y = enc(x, y, x_mask, y_mask, x_pos, y_pos)
