@@ -1,0 +1,4 @@
+1. Calculate the performance.
+
+    1.1 The original relationship model does not result in good performance. The accuracy fastly decreases to 41%
+    1.2 The model of 6 layers with bilinear fusion reaches 65.35%
