@@ -130,7 +130,7 @@ class MHAttRela(nn.Module):
     def att(self, value, key, query, bbox, mask):
         d_k = query.size(-1)
         
-        scores = torch.matmul(bbox, torch.matmul(query, key.transpose(-2, -1))) / math.sqrt(d_k)
+        scores = torch.matmul(query, key.transpose(-2, -1)) / math.sqrt(d_k)
         
         if mask is not None:
             scores = scores.masked_fill(mask, -1e9)
@@ -138,7 +138,7 @@ class MHAttRela(nn.Module):
         att_map = F.softmax(scores, dim=-1)
         att_map = self.dropout(att_map)
         
-        return torch.matmul(att_map, value)
+        return torch.matmul(bbox, torch.matmul(att_map, value))
     
 # ---------------------------
 # ---- Feed Forward Nets ----
@@ -274,9 +274,12 @@ class MCA_ED(nn.Module):
     def forward(self, y, x, y_mask, x_mask, y_pos, bbox):
         prod = torch.matmul(bbox, bbox.transpose(-1, -2))
         norm = torch.norm(bbox, p = 2, dim = -1).unsqueeze(-1)
-        norm = self.softmax(torch.matmul(norm, norm.transpose(-1, -2)))
-        print(norm)
-        sim_matrix = (prod / norm).unsqueeze(1).repeat(1,self.__C.MULTI_HEAD,1,1)
+        norm = torch.matmul(norm, norm.transpose(-1, -2))
+        sim_matrix = (prod / norm)
+        print(sim_matrix)
+        sim_matrix = self.softmax(sim_matrix)
+        print(sim_matrix, "AFTER")
+        sim_matrix = sim_matrix.unsqueeze(1).repeat(1,self.__C.MULTI_HEAD,1,1)
         
         for enc in self.enc_list:
             y = enc(y, y_mask)
