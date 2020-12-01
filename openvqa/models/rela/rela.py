@@ -277,7 +277,6 @@ class MCA_ED(nn.Module):
         norm = torch.matmul(norm, norm.transpose(-1, -2))
         sim_matrix = self.softmax(prod / norm)
         sim_matrix = sim_matrix.unsqueeze(1).repeat(1,self.__C.MULTI_HEAD,1,1)
-        print(sim_matrix.shape)
         for enc in self.enc_list:
             y = enc(y, y_mask)
         #for dec in self.dec_list:
