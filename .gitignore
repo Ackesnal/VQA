@@ -2,3 +2,4 @@ data/*
 data
 *__pycache__*
 *ckpts*
+results/*
