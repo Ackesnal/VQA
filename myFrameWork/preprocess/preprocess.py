@@ -10,8 +10,10 @@ class VGDataset(data.Dataset):
         self.load_attributes()
         self.load_relationships()
         
+        
     def load_synonyms(self):
         # get the object synsets
+        print("Loading the object synsets ...")
         with open("./data/object_synsets.json", "r") as fp:
             synsets = json.load(fp)
         self.object_sample_to_class = synsets
@@ -19,8 +21,10 @@ class VGDataset(data.Dataset):
         for sample, cls in synsets.items():
             if cls not in self.object_class_to_index:
                 self.object_class_to_index[cls] = len(self.object_class_to_index)
+        print("Finish! Totally " + str(len(self.object_class_to_index)) + " kinds of objects")
         
         # get the relationship synsets
+        print("Loading the relationship synsets ...")
         with open("./data/relationship_synsets.json", "r") as fp:
             synsets = json.load(fp)
         self.relationship_sample_to_class = synsets
@@ -28,8 +32,10 @@ class VGDataset(data.Dataset):
         for sample, cls in synsets.items():
             if cls not in self.relationship_class_to_index:
                 self.relationship_class_to_index[cls] = len(self.relationship_class_to_index)
+        print("Finish! Totally " + str(len(self.relationship_class_to_index)) + " kinds of relationships")
         
         # get the attribute synsets
+        print("Loading the attribute synsets ...")
         with open("./data/attribute_synsets.json", "r") as fp:
             synsets = json.load(fp)
         self.attribute_sample_to_class = synsets
@@ -37,12 +43,16 @@ class VGDataset(data.Dataset):
         for sample, cls in synsets.items():
             if cls not in self.attribute_class_to_index:
                 self.attribute_class_to_index[cls] = len(self.attribute_class_to_index)
-    
+        print("Finish! Totally " + str(len(self.attribute_class_to_index)) + " kinds of attributes")
+        
+        
     def load_image_path(self):
         self.image_path = glob.glob("~/murel.bootstrap.pytorch/data/vqa/vgenome/extract_rcnn/2018-04-27_bottom-up-attention_fixed_36/*.pth")
         print(self.image_path)
     
+    
     def load_objects(self):
+        print("Loading all object metadata ...")
         with open("./data/vgenome/objects.json") as fp:
             objects = json.load(fp)
         self.objects = dict()
@@ -56,8 +66,11 @@ class VGDataset(data.Dataset):
                     "h" : obj["h"],
                     "cls" : self.object_class_to_index[obj["synsets"][0]]
                 }
-                
+        print("Finish! Totally " + str(len(self.objects)) + " objects in " str(len(self.scenes)) + " images")
+        
+        
     def load_relationships(self):
+        print("Loading all relationship metadata ...")
         with open("./data/vgenome/relationships.json") as fp:
             relationships = json.load(fp)
         self.relationships = dict()
@@ -68,8 +81,11 @@ class VGDataset(data.Dataset):
                     "objects" : [rela["subject"]["object_id"], rela["object"]["object_id"]],
                     "cls" : self.relationship_class_to_index[rela["synsets"][0]]
                 }
+        print("Finish! Totally " + str(len(self.relationships)) + " relationships in " str(len(self.scenes)) + " images")
+        
         
     def load_attributes(self):
+        print("Loading all attribute metadata ...")
         with open("./data/vgenome/attributes.json") as fp:
             attributes = json.load(fp)
         self.attributes = dict()
@@ -77,8 +93,11 @@ class VGDataset(data.Dataset):
             region_attributes = attribute["attributes"]
             for attr in region_attributes:
                 self.attributes[attr["object_id"]] = attr["attributes"]
+        print("Finish! Totally " + str(len(self.attributes)) + " attributes in " str(len(self.scenes)) + " images")        
+            
         
-    def load_images(self):    
+    def load_images(self):
+        print("Loading all image metadata ...")
         with open("./data/vgenome/scene_graphs.json") as fp:
             scenes = json.load(fp)
         self.scenes = dict()
@@ -87,6 +106,7 @@ class VGDataset(data.Dataset):
             for relation in scene["relationships"]:
                 relationships.append(relation["relationship_id"])
             self.scenes[scene["image_id"]] = relationships
+        print("Finish! Totally " + str(len(self.scenes)) + " images")
         
     def get_image_features(self,):
         raise NotImplementedError()
