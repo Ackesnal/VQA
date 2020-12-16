@@ -60,6 +60,16 @@ class VGDataset(data.Dataset):
     
     def load_objects(self):
         print("Loading all object metadata ...")
+        with open("./data/vgenome/objects_vocab.txt") as fp:
+            self.object_to_index = dict()
+            self.index_to_object = dict()
+            idx = 0
+            for line in fp.readline():
+                obj = line.strip()
+                print(obj)
+                self.object_to_index[obj] = idx
+                self.index_to_object[idx] = obj
+                
         with open("./data/vgenome/objects.json") as fp:
             objects = json.load(fp)
         self.objects = dict()
