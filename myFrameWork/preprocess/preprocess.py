@@ -28,7 +28,7 @@ class VGDataset(data.Dataset):
         for sample, cls in synsets.items():
             if cls not in self.object_class_to_index:
                 self.object_class_to_index[cls] = len(self.object_class_to_index)
-        print("Finish! Totally " + str(len(self.object_class_to_index)) + " kinds of objects")
+        print("Finish! Totally " + str(len(self.object_class_to_index)) + " kinds of objects\n")
         
         # get the relationship synsets
         print("Loading the relationship synsets ...")
@@ -39,7 +39,7 @@ class VGDataset(data.Dataset):
         for sample, cls in synsets.items():
             if cls not in self.relationship_class_to_index:
                 self.relationship_class_to_index[cls] = len(self.relationship_class_to_index)
-        print("Finish! Totally " + str(len(self.relationship_class_to_index)) + " kinds of relationships")
+        print("Finish! Totally " + str(len(self.relationship_class_to_index)) + " kinds of relationships\n")
         
         # get the attribute synsets
         print("Loading the attribute synsets ...")
@@ -50,7 +50,7 @@ class VGDataset(data.Dataset):
         for sample, cls in synsets.items():
             if cls not in self.attribute_class_to_index:
                 self.attribute_class_to_index[cls] = len(self.attribute_class_to_index)
-        print("Finish! Totally " + str(len(self.attribute_class_to_index)) + " kinds of attributes")
+        print("Finish! Totally " + str(len(self.attribute_class_to_index)) + " kinds of attributes\n")
         
         
     def load_image_path(self):
@@ -66,6 +66,8 @@ class VGDataset(data.Dataset):
         for img in objects:
             region_objects = img["objects"]
             for obj in region_objects:
+                if len(obj["synsets"]) == 0:
+                    print(obj)
                 self.objects[obj["object_id"]] = {
                     "x" : obj["x"],
                     "y" : obj["y"],
@@ -73,7 +75,7 @@ class VGDataset(data.Dataset):
                     "h" : obj["h"],
                     "cls" : self.object_class_to_index[obj["synsets"][0]]
                 }
-        print("Finish! Totally " + str(len(self.objects)) + " objects in " + str(len(self.scenes)) + " images")
+        print("Finish! Totally " + str(len(self.objects)) + " objects in " + str(len(self.scenes)) + " images\n")
         
         
     def load_relationships(self):
@@ -88,7 +90,7 @@ class VGDataset(data.Dataset):
                     "objects" : [rela["subject"]["object_id"], rela["object"]["object_id"]],
                     "cls" : self.relationship_class_to_index[rela["synsets"][0]]
                 }
-        print("Finish! Totally " + str(len(self.relationships)) + " relationships in " + str(len(self.scenes)) + " images")
+        print("Finish! Totally " + str(len(self.relationships)) + " relationships in " + str(len(self.scenes)) + " images\n")
         
         
     def load_attributes(self):
@@ -100,7 +102,7 @@ class VGDataset(data.Dataset):
             region_attributes = attribute["attributes"]
             for attr in region_attributes:
                 self.attributes[attr["object_id"]] = attr["attributes"]
-        print("Finish! Totally " + str(len(self.attributes)) + " attributes in " + str(len(self.scenes)) + " images")        
+        print("Finish! Totally " + str(len(self.attributes)) + " attributes in " + str(len(self.scenes)) + " images\n")        
             
         
     def load_images(self):
@@ -113,7 +115,7 @@ class VGDataset(data.Dataset):
             for relation in scene["relationships"]:
                 relationships.append(relation["relationship_id"])
             self.scenes[scene["image_id"]] = relationships
-        print("Finish! Totally " + str(len(self.scenes)) + " images")
+        print("Finish! Totally " + str(len(self.scenes)) + " images\n")
         
     def get_image_features(self,):
         raise NotImplementedError()
