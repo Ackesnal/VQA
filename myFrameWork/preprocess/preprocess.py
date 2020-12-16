@@ -68,6 +68,7 @@ class VGDataset(data.Dataset):
             for obj in region_objects:
                 if len(obj["synsets"]) == 0:
                     print(obj)
+                    continue
                 self.objects[obj["object_id"]] = {
                     "x" : obj["x"],
                     "y" : obj["y"],
