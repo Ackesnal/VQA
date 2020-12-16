@@ -48,7 +48,7 @@ class VGDataset(data.Dataset):
     
     
     def load_image_path(self):
-        self.image_path = glob.glob("~/murel.bootstrap.pytorch/data/vqa/vgenome/extract_rcnn/2018-04-27_bottom-up-attention_fixed_36/*.pth")
+        self.image_path = glob.glob("../../murel.bootstrap.pytorch/data/vqa/vgenome/extract_rcnn/2018-04-27_bottom-up-attention_fixed_36/*.pth")
         print(self.image_path)
     
     
