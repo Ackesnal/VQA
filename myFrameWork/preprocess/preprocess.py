@@ -64,7 +64,7 @@ class VGDataset(data.Dataset):
             self.object_to_index = dict()
             self.index_to_object = dict()
             idx = 0
-            for line in fp.readline():
+            for line in fp.readlines():
                 obj = line.strip()
                 print(obj)
                 self.object_to_index[obj] = idx
