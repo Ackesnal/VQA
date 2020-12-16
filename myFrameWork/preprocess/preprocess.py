@@ -1,15 +1,22 @@
 import torch.utils.data as data
 import glob
 import json
+import time
 
 class VGDataset(data.Dataset):
     def __init__(self):
+        print("Initializing the dataset ...")
+        print("Loading metadatas ...")
+        print("---------------------------------------------")
+        start_time = time.time()
         self.load_synonyms()
         self.load_images()
         self.load_objects()
         self.load_attributes()
         self.load_relationships()
-        
+        finish_time = time.time()
+        print("---------------------------------------------")
+        print("Done! %.6f seconds" % (finish_time - start_time))
         
     def load_synonyms(self):
         # get the object synsets
@@ -66,7 +73,7 @@ class VGDataset(data.Dataset):
                     "h" : obj["h"],
                     "cls" : self.object_class_to_index[obj["synsets"][0]]
                 }
-        print("Finish! Totally " + str(len(self.objects)) + " objects in " str(len(self.scenes)) + " images")
+        print("Finish! Totally " + str(len(self.objects)) + " objects in " + str(len(self.scenes)) + " images")
         
         
     def load_relationships(self):
@@ -81,7 +88,7 @@ class VGDataset(data.Dataset):
                     "objects" : [rela["subject"]["object_id"], rela["object"]["object_id"]],
                     "cls" : self.relationship_class_to_index[rela["synsets"][0]]
                 }
-        print("Finish! Totally " + str(len(self.relationships)) + " relationships in " str(len(self.scenes)) + " images")
+        print("Finish! Totally " + str(len(self.relationships)) + " relationships in " + str(len(self.scenes)) + " images")
         
         
     def load_attributes(self):
@@ -93,7 +100,7 @@ class VGDataset(data.Dataset):
             region_attributes = attribute["attributes"]
             for attr in region_attributes:
                 self.attributes[attr["object_id"]] = attr["attributes"]
-        print("Finish! Totally " + str(len(self.attributes)) + " attributes in " str(len(self.scenes)) + " images")        
+        print("Finish! Totally " + str(len(self.attributes)) + " attributes in " + str(len(self.scenes)) + " images")        
             
         
     def load_images(self):
