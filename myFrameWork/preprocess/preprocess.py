@@ -53,7 +53,7 @@ class VGDataset(data.Dataset):
     
     
     def get_image_features(self,):
-        for 
+        raise NotImplementedError() 
     
     
     def load_ques_ans(self, idx):
