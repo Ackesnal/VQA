@@ -84,3 +84,4 @@ class VGDataset(data.Dataset):
 
     def shuffle_list(self, list):
         random.shuffle(list)
+v = VGDataset()
