@@ -66,7 +66,6 @@ class VGDataset(data.Dataset):
             idx = 0
             for line in fp.readlines():
                 obj = line.strip()
-                print(obj)
                 self.object_to_index[obj] = idx
                 self.index_to_object[idx] = obj
                 
@@ -84,7 +83,7 @@ class VGDataset(data.Dataset):
                     "y" : obj["y"],
                     "w" : obj["w"],
                     "h" : obj["h"],
-                    "cls" : self.object_class_to_index[obj["synsets"][0]]
+                    #"cls" : self.object_class_to_index[obj["synsets"][0]]
                 }
         print("Finish! Totally " + str(len(self.objects)) + " objects in " + str(len(self.scenes)) + " images\n")
         
