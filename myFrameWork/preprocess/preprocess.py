@@ -1,16 +1,12 @@
 import torch.utils.data as data
 import glob
+import json
+
 class VGDataset(data.Dataset):
     def __init__(self):
-        self.token_to_ix = None
-        self.pretrained_emb = None
-        self.ans_to_ix = None
-        self.ix_to_ans = None
-
-        self.data_size = None
-        self.token_size = None
-        self.ans_size = None
-        self.load_image_path()
+        with open("data/vgenome/image_data.json") as fp:
+            img_meta = json.load(fp)
+        print(img_meta)
 
     def load_synonyms(self):
         # get the object synsets
