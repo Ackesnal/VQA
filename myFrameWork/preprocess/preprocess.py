@@ -21,7 +21,7 @@ class VGDataset(data.Dataset):
     def load_synonyms(self):
         # get the object synsets
         print("Loading the object synsets ...")
-        with open("./data/object_synsets.json", "r") as fp:
+        with open("./data/vgenome/object_synsets.json", "r") as fp:
             synsets = json.load(fp)
         self.object_sample_to_class = synsets
         self.object_class_to_index = dict()
@@ -32,7 +32,7 @@ class VGDataset(data.Dataset):
         
         # get the relationship synsets
         print("Loading the relationship synsets ...")
-        with open("./data/relationship_synsets.json", "r") as fp:
+        with open("./data/vgenome/relationship_synsets.json", "r") as fp:
             synsets = json.load(fp)
         self.relationship_sample_to_class = synsets
         self.relationship_class_to_index = dict()
@@ -43,7 +43,7 @@ class VGDataset(data.Dataset):
         
         # get the attribute synsets
         print("Loading the attribute synsets ...")
-        with open("./data/attribute_synsets.json", "r") as fp:
+        with open("./data/vgenome/attribute_synsets.json", "r") as fp:
             synsets = json.load(fp)
         self.attribute_sample_to_class = synsets
         self.attribute_class_to_index = dict()
