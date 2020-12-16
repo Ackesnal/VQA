@@ -24,6 +24,9 @@ class VGDataset(data.Dataset):
         with open("./data/vgenome/object_synsets.json", "r") as fp:
             synsets = json.load(fp)
         self.object_sample_to_class = synsets
+        cat_cls = self.object_sample_to_class["cat"]
+        cats_cls = self.object_sample_to_class["cats"]
+        print(cat_cls, cats_cls)
         self.object_class_to_index = dict()
         for sample, cls in synsets.items():
             if cls not in self.object_class_to_index:
