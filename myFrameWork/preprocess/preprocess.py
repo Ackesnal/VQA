@@ -4,9 +4,9 @@ import json
 
 class VGDataset(data.Dataset):
     def __init__(self):
-        with open("data/vgenome/image_data.json") as fp:
-            img_meta = json.load(fp)
-        print(img_meta)
+        with open("data/vgenome/scene_graphs.json") as fp:
+            scene_graphs = json.load(fp)
+        print(type(scene_graphs))
 
     def load_synonyms(self):
         # get the object synsets
